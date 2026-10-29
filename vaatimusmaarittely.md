@@ -8,8 +8,6 @@ Palvelu on verkkopalvelu, jossa kaveriporukat ja elokuvakerhot löytävät eloku
 
 **Ongelma:** Suositukset jaetaan WhatsAppissa ja unohtuvat ennen kuin elokuvaa ehditään katsoa. Excel-taulukoita ei jakseta päivittää. IMDb ja Letterboxd näyttävät tuntemattomien arviot, eivät oman porukan.
 
-**Erottava tekijä:** Kavereiden ja oman yhteisön arviot painavat enemmän kuin satunnaisten käyttäjien.
-
 **Termit:** FR = toiminnallinen vaatimus (mitä järjestelmä tekee). NFR = ei-toiminnallinen vaatimus (laatu, käytettävyys, turvallisuus, suorituskyky).
 
 **Priorisointi (MoSCoW):** Must = ensimmäinen versio · Should = tärkeä, mahdollisimman pian · Could = jatkokehitys.
@@ -63,7 +61,7 @@ Palvelu on verkkopalvelu, jossa kaveriporukat ja elokuvakerhot löytävät eloku
 | --- | --- | --- |
 | FR-18 | Käyttäjä voi tallentaa elokuvia katselutoivelistalle ja poistaa niitä. | Must |
 | FR-19 | Käyttäjä voi tehdä suosikkilistan ja omia nimettyjä listoja (esim. "10 parasta scifiä"). | Should |
-| FR-20 | Listan voi jakaa linkillä, ja sen voi avata ilman käyttäjätiliä. | Should |
+| FR-20 | Listan voi jakaa linkillä, ja sen voi avata ilman käyttäjätiliä. | Could |
 
 ### Ryhmät
 
@@ -92,20 +90,18 @@ Palvelu on verkkopalvelu, jossa kaveriporukat ja elokuvakerhot löytävät eloku
 
 | ID | Luokka | Vaatimus | Prioriteetti |
 | --- | --- | --- | --- |
-| NFR-01 | Käytettävyys | Palvelu toimii puhelimella, tabletilla ja tietokoneella; painikkeet sopivat kosketusnäytölle. | Must |
-| NFR-02 | Käytettävyys | Ulkoasu on asiallinen ja selkeä, julisteet keskeisessä roolissa (mallina esim. Finnkino). | Must |
+| NFR-01 | Käytettävyys | Palvelu toimii puhelimella ja tietokoneella | Must |
+| NFR-02 | Käytettävyys | Ulkoasu on asiallinen ja selkeä | Must |
 | NFR-03 | Käytettävyys | Rekisteröityminen ja ryhmän perustaminen onnistuvat muutamalla askeleella. | Must |
 | NFR-04 | Saavutettavuus | Riittävä kontrasti, selkeä navigointi ja näppäimistökäyttö. | Should |
-| NFR-05 | Tietoturva | Salasanat tallennetaan hajautettuina (hash), ja yhteys on suojattu (HTTPS). | Must |
+| NFR-05 | Tietoturva | Salasanat tallennetaan hajautettuina (hash) | Must |
 | NFR-06 | Tietoturva | Käyttöoikeudet tarkistetaan palvelimella; ryhmän chat ja ryhmäarvostelut eivät näy ulkopuolisille edes suoralla linkillä. | Must |
 | NFR-07 | Tietoturva | Salasanalle on vähimmäisvaatimukset, eikä liian helppoja hyväksytä. | Should |
 | NFR-08 | Tietosuoja | Henkilötietoja käsitellään GDPR:n mukaisesti. | Must |
 | NFR-09 | Suorituskyky | Haku ja selaus toimivat ilman turhia viiveitä tavallisella mobiiliyhteydellä; kuvat ladataan tarpeen mukaan. | Should |
-| NFR-10 | Skaalautuvuus | Palvelu kestää muutaman tuhannen käyttäjän kuorman. | Should |
-| NFR-11 | Ylläpidettävyys | Elokuvatietolähteen voi vaihtaa ilman koko järjestelmän uudelleenrakentamista. | Should |
-| NFR-12 | Lisensointi | TMDB:n käyttöehtoja noudatetaan, ja lähde mainitaan sivulla. | Must |
-| NFR-13 | Kieli | Käyttöliittymä on suomeksi; rakenne sallii ruotsin ja englannin lisäämisen. | Must |
-| NFR-14 | Kieli | Ruotsin- ja englanninkielinen käyttöliittymä. | Could |
+| NFR-10 | Ylläpidettävyys | Elokuvatietolähteen voi vaihtaa ilman koko järjestelmän uudelleenrakentamista. | Should |
+| NFR-11 | Lisensointi | TMDB:n käyttöehtoja noudatetaan, ja lähde mainitaan sivulla. | Must |
+| NFR-12 | Kieli | Käyttöliittymä on suomeksi; rakenne sallii ruotsin ja englannin lisäämisen. | Must |
 
 ## 5. Rajaukset
 
@@ -117,9 +113,3 @@ Palvelu **ei** tarjoa elokuvien suoratoistoa, latausta, ostoa tai vuokrausta. Se
 - Maksulliset ominaisuudet elokuvakerhoille.
 - Yhteistyö elokuvateattereiden ja -tapahtumien kanssa, esitysajat palveluun.
 - Kehittyneempi (esim. tekoälypohjainen) suosittelu.
-
-## 7. Avoimet kysymykset
-
-- Onko ryhmächat reaaliaikainen vai keskusteluketju?
-- Mitä maksullinen kerhoversio sisältää ja mitä se maksaa?
-- Mistä teattereiden esitysajat haetaan?
