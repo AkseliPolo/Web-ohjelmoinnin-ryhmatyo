@@ -17,7 +17,11 @@
   },
   "dependencies": {
     "axios": "^1.12.2",
+<<<<<<< HEAD
     "bootstrap": "^6.0.0-alpha.1",
+=======
+    "bcryptjs": "^3.0.3",
+>>>>>>> 3dd71f402eeb51d1cf4ea5afdbbf0cbe979847ef
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
