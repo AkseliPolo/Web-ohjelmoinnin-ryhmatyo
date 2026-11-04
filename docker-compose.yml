@@ -37,16 +37,19 @@ services:
   # PostgreSQL Database
   database:
     image: postgres:18.6
-    env_file:
-      - .env
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-movieapp}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-root}
     ports:
-      - "${DB_EXPOSED_PORT}:${DB_PORT}"
+      - "${DB_EXPOSED_PORT:-5433}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql
-      - ./api/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./api/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./api/database/moveiapp_database.sql:/docker-entrypoint-initdb.d/02-movieapp.sql:ro
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -56,15 +59,20 @@ services:
     build: .
     command: npm run dev:api
     env_file:
-      - .env
+      - path: .env
+        required: false
     ports:
-      - "${BACKEND_EXPOSED_PORT}:${PORT}"
+      - "${BACKEND_EXPOSED_PORT:-3000}:${PORT:-3000}"
     volumes:
       - .:/app
       - /app/node_modules
     environment:
       - NODE_ENV=development
       - DB_HOST=database
+      - DB_PORT=5432
+      - DB_USER=${POSTGRES_USER:-postgres}
+      - DB_PASSWORD=${POSTGRES_PASSWORD:-root}
+      - DB_NAME=${POSTGRES_DB:-movieapp}
       - CHOKIDAR_USEPOLLING=true
       - CHOKIDAR_INTERVAL=1000
     depends_on:
@@ -72,7 +80,7 @@ services:
         condition: service_healthy
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:${PORT}/api/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:${PORT:-3000}/api/health || exit 1"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -82,9 +90,10 @@ services:
     build: .
     command: npm run dev:web
     env_file:
-      - .env
+      - path: .env
+        required: false
     ports:
-      - "${FRONTEND_EXPOSED_PORT}:${FRONTEND_PORT}"
+      - "${FRONTEND_EXPOSED_PORT:-5173}:${FRONTEND_PORT:-5173}"
     volumes:
       - .:/app
       - /app/node_modules
