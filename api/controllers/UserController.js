@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs'
-import { createUser } from '../models/User.js'
+import jwt from 'jsonwebtoken'
+import { createUser, findUserForLogin } from '../models/User.js'
 
 const badRequest = (message) => {
   const error = new Error(message)
@@ -44,4 +45,31 @@ const register = async (req, res, next) => {
   }
 }
 
-export { register }
+const unauthorized = () => {
+  const error = new Error('Väärä käyttäjätunnus tai salasana')
+  error.status = 401
+  return error
+}
+
+const checkLogin = async (login, password) => {
+  if (typeof login !== 'string' || typeof password !== 'string') throw unauthorized()
+  const user = await findUserForLogin(login.trim())
+  if (!user || !await bcrypt.compare(password, user.password_hash)) throw unauthorized()
+  return user
+}
+
+const login = async (req, res, next) => {
+  try {
+    const { login, password } = req.body || {}
+    const user = await checkLogin(login, password)
+    const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '7d' })
+    res.status(200).json({
+      token,
+      user: { id: user.id, username: user.username, display_name: user.display_name, email: user.email }
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export { register, login }

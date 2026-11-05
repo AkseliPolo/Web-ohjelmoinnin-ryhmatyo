@@ -10,4 +10,14 @@ const createUser = async (username, displayName, email, passwordHash) => {
   return result.rows[0]
 }
 
-export { createUser }
+const findUserForLogin = async (login) => {
+  const result = await pool.query(
+    `SELECT id, username, display_name, email, password_hash
+     FROM users
+     WHERE username = $1 OR lower(email) = lower($1)`,
+    [login]
+  )
+  return result.rows[0]
+}
+
+export { createUser, findUserForLogin }
