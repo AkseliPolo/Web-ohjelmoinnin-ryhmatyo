@@ -7,6 +7,7 @@ import errorHandler from './middleware/errorHandler.js'
 import testRouter from './routes/testRouter.js'
 import userRouter from './routes/userRouter.js'
 import movieRouter from './routes/movieRouter.js'
+import reviewRouter from './routes/reviewRouter.js'
 
 const app = express()
 
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/api/tests', testRouter)
 app.use('/api/users', userRouter)
 app.use('/api/movies', movieRouter)
+app.use('/api/reviews', reviewRouter)
 
 app.get('/api/health', async (req, res) => {
   try {
