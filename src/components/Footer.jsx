@@ -1,37 +1,32 @@
 import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 
 function Footer() {
   return (
-    <footer className="bg-dark text-light mt-auto py-4">
-      <Container>
-        <Row>
-          <Col md={4} className="mb-3 mb-md-0">
-            <h5>Oma sivusto</h5>
-            <p className="mb-0 text-secondary">
-              Lyhyt kuvaus sivustosta tai projektista.
-            </p>
-          </Col>
+    <footer className="bg-dark text-light mt-auto py-2">
+      <Container fluid>
+   <div className="d-flex flex-wrap justify-content-between gap-4">
+  <div>
+    <h6>Oma sivusto</h6>
+    <p className="mb-0 text-secondary small">Lyhyt kuvaus sivustosta.</p>
+  </div>
 
-          <Col md={4} className="mb-3 mb-md-0">
-            <h5>Linkit</h5>
-            <ul className="list-unstyled mb-0">
-              <li><a href="/" className="text-light text-decoration-none">Etusivu</a></li>
-              <li><a href="/tietoa" className="text-light text-decoration-none">Tietoa</a></li>
-              <li><a href="/yhteystiedot" className="text-light text-decoration-none">Yhteystiedot</a></li>
-            </ul>
-          </Col>
+  <div>
+    <h6>Linkit</h6>
+    <ul className="list-unstyled mb-0 small">
+      <li><a href="/" className="link-light text-decoration-none">Etusivu</a></li>
+      <li><a href="/tietoa" className="link-light text-decoration-none">Tietoa</a></li>
+      <li><a href="/yhteystiedot" className="link-light text-decoration-none">Yhteystiedot</a></li>
+    </ul>
+  </div>
 
-          <Col md={4}>
-            <h5>Yhteystiedot</h5>
-            <p className="mb-0 text-secondary">
-              Oulu, Suomi<br />
-              info@example.com
-            </p>
-          </Col>
-        </Row>
-
+  <div>
+    <h6>Yhteystiedot</h6>
+    <p className="mb-0 text-secondary small">
+      Oulu, Suomi<br />
+      info@example.com
+    </p>
+  </div>
+</div>
         <hr className="border-secondary" />
 
         <p className="text-center text-secondary mb-0">
