@@ -1,5 +1,6 @@
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import FeaturedMovies from './components/FeaturedMovies'
 import './App.css'
 
 function App() {
@@ -8,9 +9,7 @@ function App() {
       <Navbar />
 
       <main className="container mt-5 flex-grow-1">
-        <h1 className="text-primary">Tervetuloa verkkosivulle!</h1>
-        <p className="lead">Bootstrap toimii nyt projektissasi.</p>
-        <button className="btn btn-success">Kokeile painiketta</button>
+        <FeaturedMovies />
       </main>
 
       <Footer />
