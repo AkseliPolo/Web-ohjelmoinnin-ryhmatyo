@@ -1,0 +1,26 @@
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.featured-item:first-child {
+  grid-column: 1 / -1;
+}
+
+.featured-item:first-child img {
+  height: 350px;
+  object-fit: cover;
+}
+
+.featured-item img {
+  width: 100%;
+  border-radius: 0.5rem;
+}
+
+.featured-title {
+  margin-top: 0.5rem;
+  font-weight: 600;
+}

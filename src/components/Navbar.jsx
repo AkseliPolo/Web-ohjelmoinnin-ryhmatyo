@@ -3,11 +3,12 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import SearchBar from './SearchBar.jsx';
+import './navbar.css';
 
 function BasicExample() {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
+    <Navbar expand="lg" className="navbar-custom" data-bs-theme="dark">
+      <Container fluid>
         <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
 
         <div className="flex-grow-1 mx-2" style={{ maxWidth: 400 }}>
