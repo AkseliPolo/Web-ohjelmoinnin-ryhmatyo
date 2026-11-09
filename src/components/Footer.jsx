@@ -8,7 +8,7 @@ function Footer() {
    <div className="d-flex flex-wrap justify-content-between gap-4">
   <div>
     <h6>Oma sivusto</h6>
-    <p className="mb-0 text-secondary small">Lyhyt kuvaus sivustosta.</p>
+    <p className="mb-0 text-secondary small">Kuvaus sivustosta.</p>
   </div>
 
   <div>
