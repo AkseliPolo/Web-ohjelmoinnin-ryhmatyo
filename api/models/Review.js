@@ -1,5 +1,6 @@
 import { pool } from './db.js'
 
+<<<<<<< HEAD
 const findMovieIdByTmdbId = async (tmdbId) => {
   const result = await pool.query('SELECT id FROM movies WHERE tmdb_id = $1', [tmdbId])
   return result.rows[0]?.id
@@ -20,6 +21,9 @@ const saveMovie = async ({ tmdbId, title, releaseYear, posterPath }) => {
   return result.rows[0].id
 }
 
+=======
+// Elokuvan arvostelut TMDB:n id:llä (jos elokuvaa ei ole tietokannassa, tulos on tyhjä lista)
+>>>>>>> 3d13352695dc4b77f0e59c9637fd6f15f3fbd02c
 const getReviewsByTmdbId = async (tmdbId) => {
   const result = await pool.query(
     `SELECT r.id, r.rating, r.body, r.created_at, r.updated_at,
@@ -67,11 +71,4 @@ const deleteReview = async (id, userId) => {
   return result.rowCount > 0
 }
 
-export {
-  findMovieIdByTmdbId,
-  saveMovie,
-  getReviewsByTmdbId,
-  upsertReview,
-  updateReview,
-  deleteReview
-}
+export { getReviewsByTmdbId, upsertReview, updateReview, deleteReview }
