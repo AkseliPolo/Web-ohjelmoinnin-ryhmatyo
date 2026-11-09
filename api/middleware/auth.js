@@ -6,8 +6,6 @@ const unauthorized = (message) => {
   return error
 }
 
-// Tarkistaa Authorization: Bearer <token> -otsakkeen (token tulee /api/users/login -vastauksesta)
-// ja asettaa kirjautuneen käyttäjän kohtaan req.user = { id, username }
 const auth = (req, res, next) => {
   const [type, token] = (req.headers.authorization || '').split(' ')
 

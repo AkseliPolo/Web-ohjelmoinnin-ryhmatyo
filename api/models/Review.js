@@ -1,12 +1,10 @@
 import { pool } from './db.js'
 
-// Etsii elokuvan movies-taulusta TMDB:n id:llä (palauttaa oman id:n tai undefined)
 const findMovieIdByTmdbId = async (tmdbId) => {
   const result = await pool.query('SELECT id FROM movies WHERE tmdb_id = $1', [tmdbId])
   return result.rows[0]?.id
 }
 
-// Tallentaa elokuvan välimuistiksi movies-tauluun (tai päivittää sen) ja palauttaa oman id:n
 const saveMovie = async ({ tmdbId, title, releaseYear, posterPath }) => {
   const result = await pool.query(
     `INSERT INTO movies (tmdb_id, title, release_year, poster_path)
@@ -22,7 +20,6 @@ const saveMovie = async ({ tmdbId, title, releaseYear, posterPath }) => {
   return result.rows[0].id
 }
 
-// Elokuvan arvostelut TMDB:n id:llä (jos elokuvaa ei ole tietokannassa, tulos on tyhjä lista)
 const getReviewsByTmdbId = async (tmdbId) => {
   const result = await pool.query(
     `SELECT r.id, r.rating, r.body, r.created_at, r.updated_at,
@@ -37,7 +34,6 @@ const getReviewsByTmdbId = async (tmdbId) => {
   return result.rows
 }
 
-// Lisää arvostelun tai päivittää käyttäjän vanhan arvostelun samaan elokuvaan
 const upsertReview = async (userId, movieId, rating, body) => {
   const result = await pool.query(
     `INSERT INTO reviews (user_id, movie_id, rating, body)

@@ -17,15 +17,12 @@ const httpError = (status, message) => {
 const validRating = (rating) =>
   Number.isInteger(rating) && rating >= 1 && rating <= 5
 
-// Muuttaa reitin id:n kokonaisluvuksi, virheellinen id antaa 400 eikä kaada kyselyä
 const parseId = (value) => {
   const id = Number(value)
   if (!Number.isInteger(id) || id < 1) throw httpError(400, 'Virheellinen id')
   return id
 }
 
-// Muuntaa TMDB-palvelun vastauksen movies-taulun riviksi.
-// Jos tmdb.js palauttaa kentät eri nimillä, muuta nämä rivit.
 const toMovieRow = (tmdbId, details) => {
   const title = details?.title ?? details?.name
   if (!title) throw httpError(502, 'Elokuvan tietoja ei saatu TMDB:stä')
@@ -41,7 +38,6 @@ const toMovieRow = (tmdbId, details) => {
   }
 }
 
-// Palauttaa elokuvan oman id:n, ja tallentaa elokuvan ensin tietokantaan, jos sitä ei vielä ole
 const ensureMovie = async (tmdbId) => {
   const existingId = await findMovieIdByTmdbId(tmdbId)
   if (existingId) return existingId
@@ -50,7 +46,6 @@ const ensureMovie = async (tmdbId) => {
   return saveMovie(toMovieRow(tmdbId, details))
 }
 
-// GET /api/reviews/movie/:movieId  (movieId = TMDB:n elokuva-id)
 const getMovieReviews = async (req, res, next) => {
   try {
     const reviews = await getReviewsByTmdbId(parseId(req.params.movieId))
@@ -60,8 +55,6 @@ const getMovieReviews = async (req, res, next) => {
   }
 }
 
-// POST /api/reviews/movie/:movieId  (movieId = TMDB:n elokuva-id)
-// Lisää arvostelun tai päivittää kirjautuneen käyttäjän vanhan arvostelun
 const saveReview = async (req, res, next) => {
   try {
     const tmdbId = parseId(req.params.movieId)
