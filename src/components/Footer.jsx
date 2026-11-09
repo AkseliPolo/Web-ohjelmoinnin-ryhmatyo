@@ -1,8 +1,9 @@
 import Container from 'react-bootstrap/Container'
+import './footer.css';
 
 function Footer() {
   return (
-    <footer className="bg-dark text-light mt-auto py-2">
+    <footer expand="lg" className="footer-custom" data-bs-theme="dark">
       <Container fluid>
    <div className="d-flex flex-wrap justify-content-between gap-4">
   <div>
