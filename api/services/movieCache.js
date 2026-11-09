@@ -7,8 +7,6 @@ const httpError = (status, message) => {
   return error
 }
 
-// Muuntaa TMDB-palvelun vastauksen movies-taulun riviksi.
-// Jos tmdb.js palauttaa kentät eri nimillä, muuta nämä rivit.
 const toMovieRow = (tmdbId, details) => {
   const title = details?.title ?? details?.name
   if (!title) throw httpError(502, 'Elokuvan tietoja ei saatu TMDB:stä')
@@ -24,8 +22,6 @@ const toMovieRow = (tmdbId, details) => {
   }
 }
 
-// Palauttaa elokuvan oman id:n ja tallentaa elokuvan ensin tietokantaan, jos sitä ei vielä ole.
-// Käytetään sekä arvosteluissa että katselulistassa.
 const ensureMovie = async (tmdbId) => {
   const existingId = await findMovieIdByTmdbId(tmdbId)
   if (existingId) return existingId

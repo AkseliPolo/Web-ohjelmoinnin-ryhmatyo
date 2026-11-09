@@ -18,7 +18,6 @@ const parseId = (value) => {
   return id
 }
 
-// GET /api/watchlist  -> kirjautuneen käyttäjän katselulista
 const getMyWatchlist = async (req, res, next) => {
   try {
     res.status(200).json(await getWatchlist(req.user.id))
@@ -27,7 +26,6 @@ const getMyWatchlist = async (req, res, next) => {
   }
 }
 
-// GET /api/watchlist/:tmdbId  -> onko elokuva listalla? { inWatchlist: true/false }
 const checkWatchlist = async (req, res, next) => {
   try {
     const inWatchlist = await isInWatchlist(req.user.id, parseId(req.params.tmdbId))
@@ -37,7 +35,6 @@ const checkWatchlist = async (req, res, next) => {
   }
 }
 
-// POST /api/watchlist/:tmdbId  -> lisää elokuva listalle
 const addMovie = async (req, res, next) => {
   try {
     const tmdbId = parseId(req.params.tmdbId)
@@ -49,7 +46,6 @@ const addMovie = async (req, res, next) => {
   }
 }
 
-// DELETE /api/watchlist/:tmdbId  -> poista elokuva listalta
 const removeMovie = async (req, res, next) => {
   try {
     const removed = await removeFromWatchlist(req.user.id, parseId(req.params.tmdbId))

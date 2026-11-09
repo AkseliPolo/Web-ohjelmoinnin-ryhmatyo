@@ -21,7 +21,6 @@ const parseId = (value) => {
   return id
 }
 
-<<<<<<< HEAD
 const toMovieRow = (tmdbId, details) => {
   const title = details?.title ?? details?.name
   if (!title) throw httpError(502, 'Elokuvan tietoja ei saatu TMDB:stä')
@@ -45,9 +44,6 @@ const ensureMovie = async (tmdbId) => {
   return saveMovie(toMovieRow(tmdbId, details))
 }
 
-=======
-// GET /api/reviews/movie/:movieId  (movieId = TMDB:n elokuva-id)
->>>>>>> 3d13352695dc4b77f0e59c9637fd6f15f3fbd02c
 const getMovieReviews = async (req, res, next) => {
   try {
     const reviews = await getReviewsByTmdbId(parseId(req.params.movieId))

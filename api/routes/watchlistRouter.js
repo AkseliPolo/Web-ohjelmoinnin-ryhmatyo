@@ -9,7 +9,6 @@ import {
 
 const router = Router()
 
-// Kaikki katselulistan reitit vaativat kirjautumisen
 router.use(auth)
 
 router.get('/', getMyWatchlist)
