@@ -1,12 +1,10 @@
 import {
-  findMovieIdByTmdbId,
-  saveMovie,
   getReviewsByTmdbId,
   upsertReview,
   updateReview,
   deleteReview
 } from '../models/Review.js'
-import { getMovieDetails } from '../services/tmdb.js'
+import { ensureMovie } from '../services/movieCache.js'
 
 const httpError = (status, message) => {
   const error = new Error(message)
@@ -22,32 +20,6 @@ const parseId = (value) => {
   const id = Number(value)
   if (!Number.isInteger(id) || id < 1) throw httpError(400, 'Virheellinen id')
   return id
-}
-
-// Muuntaa TMDB-palvelun vastauksen movies-taulun riviksi.
-// Jos tmdb.js palauttaa kentät eri nimillä, muuta nämä rivit.
-const toMovieRow = (tmdbId, details) => {
-  const title = details?.title ?? details?.name
-  if (!title) throw httpError(502, 'Elokuvan tietoja ei saatu TMDB:stä')
-
-  const date = details.release_date ?? details.releaseDate ?? ''
-  const year = Number(String(date).slice(0, 4)) || details.release_year || details.year || null
-
-  return {
-    tmdbId,
-    title,
-    releaseYear: Number.isInteger(year) ? year : null,
-    posterPath: details.poster_path ?? details.posterPath ?? null
-  }
-}
-
-// Palauttaa elokuvan oman id:n, ja tallentaa elokuvan ensin tietokantaan, jos sitä ei vielä ole
-const ensureMovie = async (tmdbId) => {
-  const existingId = await findMovieIdByTmdbId(tmdbId)
-  if (existingId) return existingId
-
-  const details = await getMovieDetails(String(tmdbId))
-  return saveMovie(toMovieRow(tmdbId, details))
 }
 
 // GET /api/reviews/movie/:movieId  (movieId = TMDB:n elokuva-id)

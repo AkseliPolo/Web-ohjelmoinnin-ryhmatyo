@@ -1,0 +1,63 @@
+import {
+  getWatchlist,
+  addToWatchlist,
+  removeFromWatchlist,
+  isInWatchlist
+} from '../models/Watchlist.js'
+import { ensureMovie } from '../services/movieCache.js'
+
+const httpError = (status, message) => {
+  const error = new Error(message)
+  error.status = status
+  return error
+}
+
+const parseId = (value) => {
+  const id = Number(value)
+  if (!Number.isInteger(id) || id < 1) throw httpError(400, 'Virheellinen id')
+  return id
+}
+
+// GET /api/watchlist  -> kirjautuneen käyttäjän katselulista
+const getMyWatchlist = async (req, res, next) => {
+  try {
+    res.status(200).json(await getWatchlist(req.user.id))
+  } catch (err) {
+    next(err)
+  }
+}
+
+// GET /api/watchlist/:tmdbId  -> onko elokuva listalla? { inWatchlist: true/false }
+const checkWatchlist = async (req, res, next) => {
+  try {
+    const inWatchlist = await isInWatchlist(req.user.id, parseId(req.params.tmdbId))
+    res.status(200).json({ inWatchlist })
+  } catch (err) {
+    next(err)
+  }
+}
+
+// POST /api/watchlist/:tmdbId  -> lisää elokuva listalle
+const addMovie = async (req, res, next) => {
+  try {
+    const tmdbId = parseId(req.params.tmdbId)
+    const movieId = await ensureMovie(tmdbId)
+    const item = await addToWatchlist(req.user.id, movieId)
+    res.status(201).json({ ...item, tmdb_id: tmdbId })
+  } catch (err) {
+    next(err)
+  }
+}
+
+// DELETE /api/watchlist/:tmdbId  -> poista elokuva listalta
+const removeMovie = async (req, res, next) => {
+  try {
+    const removed = await removeFromWatchlist(req.user.id, parseId(req.params.tmdbId))
+    if (!removed) throw httpError(404, 'Elokuva ei ole katselulistallasi')
+    res.status(204).end()
+  } catch (err) {
+    next(err)
+  }
+}
+
+export { getMyWatchlist, checkWatchlist, addMovie, removeMovie }
