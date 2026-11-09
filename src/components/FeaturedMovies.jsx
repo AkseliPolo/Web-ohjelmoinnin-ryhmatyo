@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import './featured.css'
 
+const API_URL = import.meta.env.VITE_API_URL || ''
+
 function FeaturedMovies() {
   const [movies, setMovies] = useState([])
 
   useEffect(() => {
-    fetch('/api/movies/featured')
+    fetch(`${API_URL}/api/movies/featured`)
       .then((response) => response.json())
       .then((data) => setMovies(data))
   }, [])
