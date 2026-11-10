@@ -1,0 +1,16 @@
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.search-item img {
+  width: 100%;
+  border-radius: 0.5rem;
+}
+
+.search-title {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  font-weight: 600;
+}

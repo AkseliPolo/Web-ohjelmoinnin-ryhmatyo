@@ -1,33 +1,50 @@
-import { useSearchParams } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
+import { useEffect, useState } from 'react'
+import { useSearchParams, Link } from 'react-router-dom'
+import './search.css'
 
-const MOCK_MOVIES = [
-  { id: 1, title: 'Tähtien takaa' },
-  { id: 2, title: 'Yö Helsingissä' },
-  { id: 3, title: 'Viimeinen juna' },
-  { id: 4, title: 'Meren kutsu' },
-];
+const API_URL = import.meta.env.VITE_API_URL || ''
 
-export default function SearchPage() {
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get('q') ?? '';
+function SearchPage() {
+  const [searchParams] = useSearchParams()
+  const query = searchParams.get('q') || ''
+  const [movies, setMovies] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const results = MOCK_MOVIES.filter((m) =>
-    m.title.toLowerCase().includes(query.toLowerCase())
-  );
+  useEffect(() => {
+    setLoading(true)
+    fetch(`${API_URL}/api/movies/search?q=${encodeURIComponent(query)}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setMovies(data.results || [])
+        setLoading(false)
+      })
+  }, [query])
+
+  if (loading) {
+    return <p>Haetaan...</p>
+  }
 
   return (
-    <Container className="mt-4">
-      <h1 className="h4">Hakutulokset: "{query}"</h1>
-      {results.length === 0 ? (
-        <p>Hakusanalla ei löytynyt elokuvia.</p>
-      ) : (
-        <ul>
-          {results.map((m) => (
-            <li key={m.id}>{m.title}</li>
-          ))}
-        </ul>
-      )}
-    </Container>
-  );
+    <div>
+      <h1 className="h4 mb-4">Hakutulokset: "{query}"</h1>
+
+      {movies.length === 0 && <p>Hakusanalla ei löytynyt elokuvia.</p>}
+
+      <div className="search-grid">
+        {movies.map((movie) => (
+          <div className="search-item" key={movie.id}>
+            <Link to={`/movies/${movie.id}`}>
+              {movie.posterUrl && (
+                <img src={movie.posterUrl} alt={movie.title} />
+              )}
+              <p className="search-title">{movie.title}</p>
+            </Link>
+            <small>{movie.year}</small>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
+
+export default SearchPage
