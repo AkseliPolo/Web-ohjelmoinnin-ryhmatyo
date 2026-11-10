@@ -1,16 +1,31 @@
-import SearchBar from './SearchBar.jsx';
-import './navbar.css';
-import { useState } from "react";
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import './navbar.css'
 
-function navbar() {
+function Navbar() {
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('')
+  const navigate = useNavigate()
+
+  const handleSearch = (event) => {
+    event.preventDefault()
+    if (query.trim()) {
+      navigate(`/search?q=${encodeURIComponent(query.trim())}`)
+    }
+  }
 
   return (
     <nav className="my-navbar">
       <a className="my-navbar-brand" href="/">Elokuva nettisivu</a>
 
-      <form className="my-navbar-search" role="search">
-        <input className="form-control" type="search" placeholder="Hae elokuvaa nimellä" />
+      <form className="my-navbar-search" role="search" onSubmit={handleSearch}>
+        <input
+          className="form-control"
+          type="search"
+          placeholder="Hae elokuvaa nimellä"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+        />
         <button className="btn btn-dark" type="submit">Hae</button>
       </form>
 
@@ -36,4 +51,4 @@ function navbar() {
   );
 }
 
-export default navbar;
+export default Navbar;
