@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import './auth.css'
+import './Auth.css'
  
 function RegisterPage() {
   const [username, setUsername] = useState('')
