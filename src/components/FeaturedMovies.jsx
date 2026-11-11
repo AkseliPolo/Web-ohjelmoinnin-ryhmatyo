@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import './featured.css'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
@@ -17,10 +18,14 @@ function FeaturedMovies() {
       <h2 className="h4 mb-3 text-center">Suositeltuja elokuvia</h2>
       <div className="featured-grid">
         {movies.map((movie) => (
-          <div className="featured-item" key={movie.id}>
+          <Link
+            to={`/movies/${movie.id}`}
+            className="featured-item"
+            key={movie.id}
+          >
             <img src={movie.backdropUrl} alt={movie.title} />
             <p className="featured-title">{movie.title}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
