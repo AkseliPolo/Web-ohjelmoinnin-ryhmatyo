@@ -4,6 +4,11 @@ const TMDB_URL = 'https://api.themoviedb.org/3'
 const IMAGE_URL = 'https://image.tmdb.org/t/p/w342'
 const BACKDROP_URL = 'https://image.tmdb.org/t/p/w1280'
 
+const SORTS = {
+  newest: 'primary_release_date.desc',
+  oldest: 'primary_release_date.asc'
+}
+
 const authOptions = () => {
   const key = process.env.TMDB_API_KEY
   if (!key) {
@@ -40,6 +45,12 @@ const toMovie = (movie) => ({
   rating: movie.vote_average
 })
 
+const toPageResult = (data) => ({
+  page: data.page,
+  totalPages: Math.min(data.total_pages, 500),
+  results: data.results.map(toMovie)
+})
+
 const hasNoFinnishTitle = (movie) =>
   movie.title === movie.original_title && movie.original_language !== 'en'
 
@@ -55,13 +66,32 @@ const getListWithTitles = async (path, params) => {
   return { ...data, results }
 }
 
-const searchMovies = async (query, page) => {
-  const data = await getListWithTitles('/search/movie', { query, page })
-  return {
-    page: data.page,
-    totalPages: data.total_pages,
-    results: data.results.map(toMovie)
-  }
+const searchMovies = async (query, page, year) => {
+  const data = await getListWithTitles('/search/movie', {
+    query,
+    page,
+    primary_release_year: year
+  })
+  return toPageResult(data)
+}
+
+const today = () => new Date().toISOString().slice(0, 10)
+
+const discoverMovies = async ({ genre, year, sort, page }) => {
+  const data = await getListWithTitles('/discover/movie', {
+    with_genres: genre,
+    primary_release_year: year,
+    sort_by: SORTS[sort],
+    page,
+    'primary_release_date.lte': today(),
+    'vote_count.gte': 50
+  })
+  return toPageResult(data)
+}
+
+const getGenres = async () => {
+  const data = await tmdbGet('/genre/movie/list', {})
+  return data.genres
 }
 
 const findTrailer = (videos) => {
@@ -106,4 +136,4 @@ const getFeaturedMovies = async (count) => {
   }))
 }
 
-export { searchMovies, getMovieDetails, getFeaturedMovies }
+export { searchMovies, discoverMovies, getGenres, getMovieDetails, getFeaturedMovies }

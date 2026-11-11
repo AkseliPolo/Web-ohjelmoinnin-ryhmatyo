@@ -70,3 +70,12 @@
 .my-navbar-toggler:hover {
   border-color: white;
 }
+
+.my-navbar-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
