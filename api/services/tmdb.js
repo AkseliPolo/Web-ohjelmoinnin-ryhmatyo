@@ -78,11 +78,12 @@ const getMovieDetails = async (id) => {
     const english = await tmdbGet(`/movie/${id}`, { language: 'en-US' })
     movie.title = english.title
   }
-  return {
+   return {
     ...toMovie(movie),
     runtime: movie.runtime,
     genres: movie.genres.map((genre) => genre.name),
-    trailerKey: findTrailer(movie.videos.results)
+    trailerKey: findTrailer(movie.videos.results),
+    backdropUrl: movie.backdrop_path ? `${BACKDROP_URL}${movie.backdrop_path}` : null
   }
 }
 
