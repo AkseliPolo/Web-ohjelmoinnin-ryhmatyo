@@ -64,8 +64,16 @@ const searchMovies = async (query, page) => {
   }
 }
 
+const findTrailer = (videos) => {
+  const trailer = videos.find((video) => video.site === 'YouTube' && video.type === 'Trailer')
+  return trailer ? trailer.key : null
+}
+
 const getMovieDetails = async (id) => {
-  const movie = await tmdbGet(`/movie/${id}`, {})
+  const movie = await tmdbGet(`/movie/${id}`, {
+    append_to_response: 'videos',
+    include_video_language: 'fi,en'
+  })
   if (hasNoFinnishTitle(movie)) {
     const english = await tmdbGet(`/movie/${id}`, { language: 'en-US' })
     movie.title = english.title
@@ -73,7 +81,8 @@ const getMovieDetails = async (id) => {
   return {
     ...toMovie(movie),
     runtime: movie.runtime,
-    genres: movie.genres.map((genre) => genre.name)
+    genres: movie.genres.map((genre) => genre.name),
+    trailerKey: findTrailer(movie.videos.results)
   }
 }
 
