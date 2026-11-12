@@ -71,6 +71,7 @@ function MovieDetailsPage() {
                   src={`https://www.youtube-nocookie.com/embed/${movie.trailerKey}`}
                   title={`${movie.title} - trailer`}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
                 />
