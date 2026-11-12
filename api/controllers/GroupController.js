@@ -1,19 +1,8 @@
-import { createGroup, getGroupById } from '../models/Group.js'
+import { createGroup, getGroupById, listGroups } from '../models/Group.js'
+import { httpError, parseId, parseOptionalInt } from '../services/httpHelpers.js'
 
 const NAME_MAX = 100
 const DESCRIPTION_MAX = 1000
-
-const httpError = (status, message) => {
-  const error = new Error(message)
-  error.status = status
-  return error
-}
-
-const parseId = (value) => {
-  const id = Number(value)
-  if (!Number.isInteger(id) || id < 1) throw httpError(400, 'Virheellinen id')
-  return id
-}
 
 const checkGroupInput = (body) => {
   const { name, description } = body || {}
@@ -38,6 +27,17 @@ const checkGroupInput = (body) => {
     description: typeof description === 'string' && description.trim() ? description.trim() : null
   }
 }
+
+const toGroupSummary = (group) => ({
+  id: group.id,
+  name: group.name,
+  description: group.description,
+  created_at: group.created_at,
+  member_count: group.member_count,
+  is_member: group.my_role !== null,
+  my_role: group.my_role,
+  has_pending_request: group.has_pending_request
+})
 
 const create = async (req, res, next) => {
   try {
@@ -68,11 +68,45 @@ const getGroup = async (req, res, next) => {
         : null,
       member_count: group.member_count,
       is_member: group.my_role !== null,
-      my_role: group.my_role
+      my_role: group.my_role,
+      has_pending_request: group.has_pending_request
     })
   } catch (error) {
     next(error)
   }
 }
 
-export { create, getGroup }
+const fetchGroups = async (req, onlyMine) => {
+  const search =
+    typeof req.query.search === 'string' && req.query.search.trim()
+      ? req.query.search.trim()
+      : null
+  const limit = parseOptionalInt(req.query.limit, 20, 1, 50)
+  const page = parseOptionalInt(req.query.page, 1, 1, 100000)
+
+  const groups = await listGroups(req.user.id, {
+    onlyMine,
+    search,
+    limit,
+    offset: (page - 1) * limit
+  })
+  return groups.map(toGroupSummary)
+}
+
+const listAll = async (req, res, next) => {
+  try {
+    res.status(200).json(await fetchGroups(req, false))
+  } catch (error) {
+    next(error)
+  }
+}
+
+const listMine = async (req, res, next) => {
+  try {
+    res.status(200).json(await fetchGroups(req, true))
+  } catch (error) {
+    next(error)
+  }
+}
+
+export { create, getGroup, listAll, listMine }

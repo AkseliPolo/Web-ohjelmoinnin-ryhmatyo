@@ -32,7 +32,11 @@ const getGroupById = async (groupId, viewerId) => {
             u.id AS creator_id, u.username AS creator_username,
             u.display_name AS creator_display_name,
             (SELECT COUNT(*) FROM group_members WHERE group_id = g.id)::int AS member_count,
-            me.role AS my_role
+            me.role AS my_role,
+            EXISTS (
+              SELECT 1 FROM group_join_requests r
+              WHERE r.group_id = g.id AND r.user_id = $2 AND r.status = 'pending'
+            ) AS has_pending_request
      FROM groups g
      LEFT JOIN users u ON u.id = g.created_by
      LEFT JOIN group_members me ON me.group_id = g.id AND me.user_id = $2
@@ -42,4 +46,29 @@ const getGroupById = async (groupId, viewerId) => {
   return result.rows[0]
 }
 
-export { createGroup, getGroupById }
+const groupExists = async (groupId) => {
+  const result = await pool.query('SELECT 1 FROM groups WHERE id = $1', [groupId])
+  return result.rowCount > 0
+}
+
+const listGroups = async (viewerId, { onlyMine, search, limit, offset }) => {
+  const result = await pool.query(
+    `SELECT g.id, g.name, g.description, g.created_at,
+            (SELECT COUNT(*) FROM group_members WHERE group_id = g.id)::int AS member_count,
+            me.role AS my_role,
+            EXISTS (
+              SELECT 1 FROM group_join_requests r
+              WHERE r.group_id = g.id AND r.user_id = $1 AND r.status = 'pending'
+            ) AS has_pending_request
+     FROM groups g
+     LEFT JOIN group_members me ON me.group_id = g.id AND me.user_id = $1
+     WHERE ($2::boolean = false OR me.role IS NOT NULL)
+       AND ($3::text IS NULL OR g.name ILIKE '%' || $3 || '%')
+     ORDER BY g.created_at DESC, g.id DESC
+     LIMIT $4 OFFSET $5`,
+    [viewerId, onlyMine, search, limit, offset]
+  )
+  return result.rows
+}
+
+export { createGroup, getGroupById, groupExists, listGroups }
