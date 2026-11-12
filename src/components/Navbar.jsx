@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import './navbar.css'
 
 function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
   const navigate = useNavigate()
 
@@ -16,9 +16,11 @@ function Navbar() {
 
   return (
     <nav className="my-navbar">
-      <a className="my-navbar-brand" href="/">Elokuva nettisivu</a>
+      <Link className="my-navbar-brand" to="/">
+        Elokuva nettisivu
+      </Link>
 
-      <form className="my-navbar-search" role="search" onSubmit={handleSearch}>
+      <form className="my-navbar-search" onSubmit={handleSearch}>
         <input
           className="form-control"
           type="search"
@@ -26,29 +28,43 @@ function Navbar() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
-        <button className="btn btn-dark" type="submit">Hae</button>
+        <button className="btn btn-dark" type="submit">
+          Hae
+        </button>
       </form>
 
-      <button
-        className="my-navbar-toggler"
-        type="button"
-        aria-label="Valikko"
-        aria-expanded={open}
-        onClick={() => setOpen(!open)}
+      <div className="my-navbar-actions">
+        <Link className="btn btn-outline-light" to="/login">
+          Kirjaudu sisään
+        </Link>
+
+        <button
+          className="my-navbar-toggler"
+          type="button"
+          aria-label="Valikko"
+          aria-expanded={open}
+          onClick={() => setOpen(!open)}
         >
-       <span></span>
-       <span></span>
-       <span></span>
-      </button>
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
 
       {open && (
         <ul className="my-navbar-menu">
-          <li><a href="/" onClick={() => setOpen(false)}>Home</a></li>
-          <li><a href="/link" onClick={() => setOpen(false)}>Link</a></li>
+          <li>
+            <Link to="/" onClick={() => setOpen(false)}>Etusivu</Link>
+          </li>
+          <li>
+            <Link to="/login" onClick={() => setOpen(false)}>
+              Kirjaudu sisään
+            </Link>
+          </li>
         </ul>
       )}
     </nav>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar

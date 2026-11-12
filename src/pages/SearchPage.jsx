@@ -4,6 +4,7 @@ import './search.css'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
 
+
 function SearchPage() {
   const [searchParams] = useSearchParams()
   const query = searchParams.get('q') || ''
