@@ -1,17 +1,25 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import './navbar.css'
 
 function Navbar() {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
   const navigate = useNavigate()
+  const { user, logout } = useAuth()
 
   const handleSearch = (event) => {
     event.preventDefault()
     if (query.trim()) {
       navigate(`/search?q=${encodeURIComponent(query.trim())}`)
     }
+  }
+
+  const handleLogout = () => {
+    logout()
+    setOpen(false)
+    navigate('/')
   }
 
   return (
@@ -34,9 +42,18 @@ function Navbar() {
       </form>
 
       <div className="my-navbar-actions">
-        <Link className="btn btn-outline-light" to="/login">
-          Kirjaudu sisään
-        </Link>
+        {user ? (
+          <>
+            <span className="text-light">{user.display_name || user.username}</span>
+            <button className="btn btn-outline-light" type="button" onClick={handleLogout}>
+              Kirjaudu ulos
+            </button>
+          </>
+        ) : (
+          <Link className="btn btn-outline-light" to="/login">
+            Kirjaudu sisään
+          </Link>
+        )}
 
         <button
           className="my-navbar-toggler"
@@ -56,11 +73,19 @@ function Navbar() {
           <li>
             <Link to="/" onClick={() => setOpen(false)}>Etusivu</Link>
           </li>
-          <li>
-            <Link to="/login" onClick={() => setOpen(false)}>
-              Kirjaudu sisään
-            </Link>
-          </li>
+          {user ? (
+            <li>
+              <a href="/" onClick={(event) => { event.preventDefault(); handleLogout() }}>
+                Kirjaudu ulos
+              </a>
+            </li>
+          ) : (
+            <li>
+              <Link to="/login" onClick={() => setOpen(false)}>
+                Kirjaudu sisään
+              </Link>
+            </li>
+          )}
         </ul>
       )}
     </nav>
