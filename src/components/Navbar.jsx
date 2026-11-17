@@ -73,9 +73,17 @@ function Navbar() {
           <li>
             <Link to="/" onClick={() => setOpen(false)}>Etusivu</Link>
           </li>
+<<<<<<< Updated upstream
           <li>
             <Link to="/browse" onClick={() => setOpen(false)}>Selaa elokuvia</Link>
           </li>
+=======
+          {user && (
+            <li>
+              <Link to="/groups" onClick={() => setOpen(false)}>Ryhmät</Link>
+            </li>
+          )}
+>>>>>>> Stashed changes
           {user ? (
             <li>
               <a href="/" onClick={(event) => { event.preventDefault(); handleLogout() }}>
