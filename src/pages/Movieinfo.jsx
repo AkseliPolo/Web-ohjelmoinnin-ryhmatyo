@@ -41,45 +41,38 @@ function MovieDetailsPage() {
           <p className="mb-1">⭐ {movie.rating} · {movie.runtime} min</p>
           <p className="text-secondary">{movie.genres.join(', ')}</p>
 
-          {movie.trailerKey ? (
-            <div style={{ position: 'relative' }} className="mb-4">
-              {movie.backdropUrl && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: '-40px',
-                    backgroundImage: `url(${movie.backdropUrl})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    filter: 'blur(80px) saturate(1.6)',
-                    opacity: 0.55,
-                    zIndex: 0
-                  }}
-                />
-              )}
+          {movie.trailerKey && (
+        <div style={{ position: 'relative' }} className="mb-4">
+        {movie.backdropUrl && (
+      <div
+          style={{
+            position: 'absolute',
+            inset: '-20px',
+            backgroundImage: `url(${movie.backdropUrl})`,
+            backgroundSize: 'cover',
+           backgroundPosition: 'center',
+           filter: 'blur(60px) saturate(1.6)',
+           opacity: 0.55,
+           zIndex: 0
+          }}
+        />
+      )}
 
-              <div
-                className="rounded overflow-hidden"
-                style={{
-                  position: 'relative',
-                  width: '100%',
-                  aspectRatio: '16 / 9',
-                  zIndex: 1
-                }}
-              >
-                <iframe
-                  src={`https://www.youtube-nocookie.com/embed/${movie.trailerKey}`}
-                  title={`${movie.title} - trailer`}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
-                />
-              </div>
-            </div>
-          ) : (
-            <p className="text-muted mb-4">Traileria ei löytynyt.</p>
-          )}
+      <div
+        className="rounded overflow-hidden"
+        style={{ position: 'relative', width: '100%', aspectRatio: '16 / 9', zIndex: 1 }}
+     >
+       <iframe
+         src={`https://www.youtube-nocookie.com/embed/${movie.trailerKey}`}
+         title={`${movie.title} - trailer`}
+         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+         referrerPolicy="strict-origin-when-cross-origin"
+         allowFullScreen
+         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
+       />
+      </div>
+    </div>
+  )}
 
               {movie.overview && (
                <div
