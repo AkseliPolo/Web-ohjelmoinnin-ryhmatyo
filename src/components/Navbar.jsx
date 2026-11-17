@@ -73,6 +73,9 @@ function Navbar() {
           <li>
             <Link to="/" onClick={() => setOpen(false)}>Etusivu</Link>
           </li>
+          <li>
+            <Link to="/browse" onClick={() => setOpen(false)}>Selaa elokuvia</Link>
+          </li>
           {user ? (
             <li>
               <a href="/" onClick={(event) => { event.preventDefault(); handleLogout() }}>
