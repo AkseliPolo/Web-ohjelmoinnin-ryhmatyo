@@ -3,7 +3,8 @@ import {
   getFeaturedMovies,
   getGenres,
   getMovieDetails,
-  searchMovies
+  searchMovies,
+  searchPeople
 } from '../services/tmdb.js'
 
 const badRequest = (message) => {
@@ -36,6 +37,21 @@ const parseYear = (value) =>
 const parseGenre = (value) =>
   parseOptionalInt(value, 1, 1000000, 'Genre on virheellinen')
 
+const parsePerson = (value) =>
+  parseOptionalInt(value, 1, 100000000, 'Henkilön tunniste on virheellinen')
+
+const parseMinRating = (value) =>
+  parseOptionalInt(value, 1, 9, 'Vähimmäisarvosanan pitää olla 1–9')
+
+const parseYearRange = (from, to) => {
+  const yearFrom = parseYear(from)
+  const yearTo = parseYear(to)
+  if (yearFrom && yearTo && yearFrom > yearTo) {
+    throw badRequest('Alkuvuosi ei voi olla loppuvuotta myöhäisempi')
+  }
+  return { yearFrom, yearTo }
+}
+
 const parseSort = (value = 'newest') => {
   if (value !== 'newest' && value !== 'oldest') {
     throw badRequest('Järjestys on virheellinen, käytä newest tai oldest')
@@ -60,10 +76,24 @@ const discover = async (req, res, next) => {
     const options = {
       genre: parseGenre(req.query.genre),
       year: parseYear(req.query.year),
+      ...parseYearRange(req.query.yearFrom, req.query.yearTo),
+      cast: parsePerson(req.query.cast),
+      crew: parsePerson(req.query.crew),
+      minRating: parseMinRating(req.query.minRating),
       sort: parseSort(req.query.sort),
       page: parsePage(req.query.page)
     }
     res.status(200).json(await discoverMovies(options))
+  } catch (error) {
+    next(error)
+  }
+}
+
+const people = async (req, res, next) => {
+  try {
+    const query = (req.query.q || '').trim()
+    if (!query) throw badRequest('Hakusana puuttuu')
+    res.status(200).json(await searchPeople(query))
   } catch (error) {
     next(error)
   }
@@ -94,4 +124,4 @@ const featured = async (req, res, next) => {
   }
 }
 
-export { search, discover, genres, getMovie, featured }
+export { search, discover, genres, getMovie, featured, people }

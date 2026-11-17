@@ -77,16 +77,40 @@ const searchMovies = async (query, page, year) => {
 
 const today = () => new Date().toISOString().slice(0, 10)
 
-const discoverMovies = async ({ genre, year, sort, page }) => {
+const releaseDateRange = (yearFrom, yearTo) => {
+  const now = today()
+  const end = yearTo ? `${yearTo}-12-31` : now
+  return {
+    'primary_release_date.gte': yearFrom ? `${yearFrom}-01-01` : undefined,
+    'primary_release_date.lte': end < now ? end : now
+  }
+}
+
+const discoverMovies = async ({ genre, year, yearFrom, yearTo, cast, crew, minRating, sort, page }) => {
   const data = await getListWithTitles('/discover/movie', {
     with_genres: genre,
+    with_cast: cast,
+    with_crew: crew,
+    'vote_average.gte': minRating,
     primary_release_year: year,
     sort_by: SORTS[sort],
     page,
-    'primary_release_date.lte': today(),
+    ...releaseDateRange(yearFrom, yearTo),
     'vote_count.gte': 50
   })
   return toPageResult(data)
+}
+
+const PROFILE_URL = 'https://image.tmdb.org/t/p/w185'
+
+const searchPeople = async (query) => {
+  const data = await tmdbGet('/search/person', { query })
+  return data.results.slice(0, 8).map((person) => ({
+    id: person.id,
+    name: person.name,
+    department: person.known_for_department,
+    profileUrl: person.profile_path ? `${PROFILE_URL}${person.profile_path}` : null
+  }))
 }
 
 const getGenres = async () => {
@@ -136,4 +160,4 @@ const getFeaturedMovies = async (count) => {
   }))
 }
 
-export { searchMovies, discoverMovies, getGenres, getMovieDetails, getFeaturedMovies }
+export { searchMovies, discoverMovies, getGenres, getMovieDetails, getFeaturedMovies, searchPeople }

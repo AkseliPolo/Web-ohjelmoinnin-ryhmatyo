@@ -1,0 +1,81 @@
+.person-picker {
+  position: relative;
+}
+
+.person-results {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  max-height: 320px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  color: #212529;
+  background: #fff;
+  border: 1px solid var(--bs-border-color, #dee2e6);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
+}
+
+.person-results button {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 0.6rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-radius: 0.35rem;
+}
+
+.person-results button:hover,
+.person-results button:focus-visible {
+  background: #e9ecef;
+}
+
+.person-results img,
+.person-no-photo {
+  grid-row: span 2;
+  width: 36px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  background: #e9ecef;
+}
+
+.person-name {
+  font-weight: 600;
+}
+
+.person-results small {
+  color: #6c757d;
+}
+
+.person-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.person-chip span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.person-chip button {
+  padding: 0 0.35rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: inherit;
+  background: none;
+  border: 0;
+}
