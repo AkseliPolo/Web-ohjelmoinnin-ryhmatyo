@@ -151,3 +151,52 @@
   color: rgba(255, 255, 255, 0.6);
   font-size: 1.1rem;
 }
+
+.my-navbar-search input {
+  min-width: 0;
+  flex: 1;
+  border-radius: 999px;
+  padding-left: 1rem;
+}
+
+.my-navbar-search .btn {
+  border-radius: 999px;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+/* Mobiili */
+@media (max-width: 768px) {
+  .my-navbar {
+    flex-wrap: wrap;
+    padding: 0.5rem 0.75rem;
+    row-gap: 0.5rem;
+  }
+
+  .my-navbar-brand {
+    order: 1;
+    font-size: 1rem;
+  }
+
+  .my-navbar-actions {
+    order: 2;
+    margin-left: auto;
+    gap: 8px;
+  }
+
+  .my-navbar-actions .btn {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .my-navbar-actions .text-light {
+    display: none;
+  }
+
+  .my-navbar-search {
+    order: 3;
+    flex: 1 1 100%;
+    max-width: none;
+  }
+}

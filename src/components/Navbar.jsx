@@ -105,7 +105,6 @@ function Navbar() {
               <h2>Elokuvat</h2>
               <Link to="/" onClick={() => setOpen(false)}>Etusivu</Link>
               <Link to="/browse" onClick={() => setOpen(false)}>Selaa elokuvia</Link>
-              <Link to="/search" onClick={() => setOpen(false)}>Hae elokuvia</Link>
             </div>
 
             <div className="fullmenu-column">

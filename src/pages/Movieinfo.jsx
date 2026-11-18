@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import StarRating from '../components/StarRating'
 import { ReviewForm, ReviewList } from '../components/MovieReviews'
 import { useMovieReviews } from '../components/useMovieReviews'
+import './movieinfo.css'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
 
@@ -21,26 +22,18 @@ function MovieDetailsPage() {
     return <p>Ladataan...</p>
   }
 
-  return (
-    <div
-      style={{
-        minHeight: '100vh',
-      }}
-    >
-      <div
-        className="container-fluid px-4 py-4"
-        style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', alignItems: 'flex-start' }}
-      >
-        <div style={{ flex: '0 0 auto' }}>
+    return (
+    <div style={{ minHeight: '100vh' }}>
+      <div className="container-fluid px-3 px-md-4 py-4 movie-layout">
+        <div className="movie-poster-wrap">
           <img
             src={movie.posterUrl}
             alt={movie.title}
-            className="img-fluid rounded"
-            style={{ width: 427 }}
+            className="movie-poster rounded"
           />
         </div>
 
-        <div style={{ flex: '1 1 500px', minWidth: 0 }}>
+        <div className="movie-info">
           <div className="movie-title-row">
             <h1>{movie.title} ({movie.year})</h1>
             <StarRating
