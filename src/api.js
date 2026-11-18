@@ -21,7 +21,7 @@ export async function apiFetch(path, options = {}) {
   }
 
   if (!response.ok) {
-    const error = new Error((data && (data.error || data.message)) || `Virhe ${response.status}`)
+    const error = new Error(data?.error?.message || data?.error || data?.message || `Virhe ${response.status}`)
     error.status = response.status
     throw error
   }
