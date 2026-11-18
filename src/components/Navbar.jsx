@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import './navbar.css'
@@ -21,6 +21,22 @@ function Navbar() {
     setOpen(false)
     navigate('/')
   }
+
+  useEffect(() => {
+    if (!open) return
+
+    const handleKey = (event) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+
+    document.addEventListener('keydown', handleKey)
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.removeEventListener('keydown', handleKey)
+      document.body.style.overflow = ''
+    }
+  }, [open])
 
   return (
     <nav className="my-navbar">
@@ -69,32 +85,50 @@ function Navbar() {
       </div>
 
       {open && (
-        <ul className="my-navbar-menu">
-          <li>
-            <Link to="/" onClick={() => setOpen(false)}>Etusivu</Link>
-          </li>
-          <li>
-            <Link to="/browse" onClick={() => setOpen(false)}>Selaa elokuvia</Link>
-          </li>
-          {user && (
-            <li>
+        <div className="fullmenu" role="dialog" aria-modal="true" aria-label="Valikko">
+          <div className="fullmenu-header">
+            <Link className="my-navbar-brand" to="/" onClick={() => setOpen(false)}>
+              Elokuva nettisivu
+            </Link>
+            <button
+              className="fullmenu-close"
+              type="button"
+              aria-label="Sulje valikko"
+              onClick={() => setOpen(false)}
+            >
+              ✕
+            </button>
+          </div>
+
+          <div className="fullmenu-content">
+            <div className="fullmenu-column">
+              <h2>Elokuvat</h2>
+              <Link to="/" onClick={() => setOpen(false)}>Etusivu</Link>
+              <Link to="/browse" onClick={() => setOpen(false)}>Selaa elokuvia</Link>
+              <Link to="/search" onClick={() => setOpen(false)}>Hae elokuvia</Link>
+            </div>
+
+            <div className="fullmenu-column">
+              <h2>Yhteisö</h2>
               <Link to="/groups" onClick={() => setOpen(false)}>Ryhmät</Link>
-            </li>
-          )}
-          {user ? (
-            <li>
-              <a href="/" onClick={(event) => { event.preventDefault(); handleLogout() }}>
-                Kirjaudu ulos
-              </a>
-            </li>
-          ) : (
-            <li>
-              <Link to="/login" onClick={() => setOpen(false)}>
-                Kirjaudu sisään
-              </Link>
-            </li>
-          )}
-        </ul>
+            </div>
+
+            <div className="fullmenu-column">
+              <h2>Oma tili</h2>
+              {user ? (
+                <>
+                  <span className="fullmenu-user">{user.display_name || user.username}</span>
+                  <button type="button" onClick={handleLogout}>Kirjaudu ulos</button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" onClick={() => setOpen(false)}>Kirjaudu sisään</Link>
+                  <Link to="/register" onClick={() => setOpen(false)}>Rekisteröidy</Link>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
       )}
     </nav>
   )

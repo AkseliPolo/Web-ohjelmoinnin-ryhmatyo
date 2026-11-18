@@ -54,17 +54,17 @@ function MovieDetailsPage() {
 
           <ReviewForm reviews={reviews} />
 
-          {movie.trailerKey ? (
+          {movie.trailerKey && (
             <div style={{ position: 'relative' }} className="mb-4">
               {movie.backdropUrl && (
                 <div
                   style={{
                     position: 'absolute',
-                    inset: '-40px',
+                    inset: '-20px',
                     backgroundImage: `url(${movie.backdropUrl})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
-                    filter: 'blur(80px) saturate(1.6)',
+                    filter: 'blur(60px) saturate(1.6)',
                     opacity: 0.55,
                     zIndex: 0
                   }}
@@ -73,12 +73,7 @@ function MovieDetailsPage() {
 
               <div
                 className="rounded overflow-hidden"
-                style={{
-                  position: 'relative',
-                  width: '100%',
-                  aspectRatio: '16 / 9',
-                  zIndex: 1
-                }}
+                style={{ position: 'relative', width: '100%', aspectRatio: '16 / 9', zIndex: 1 }}
               >
                 <iframe
                   src={`https://www.youtube-nocookie.com/embed/${movie.trailerKey}`}
@@ -90,8 +85,6 @@ function MovieDetailsPage() {
                 />
               </div>
             </div>
-          ) : (
-            <p className="text-muted mb-4">Traileria ei löytynyt.</p>
           )}
 
           {movie.overview && (
