@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import StarRating from '../components/StarRating'
 import { ReviewForm, ReviewList } from '../components/MovieReviews'
 import { useMovieReviews } from '../components/useMovieReviews'
+import SimilarMovies from '../components/SimilarMovies'
 import './movieinfo.css'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
@@ -22,7 +23,7 @@ function MovieDetailsPage() {
     return <p>Ladataan...</p>
   }
 
-    return (
+  return (
     <div style={{ minHeight: '100vh' }}>
       <div className="container-fluid px-3 px-md-4 py-4 movie-layout">
         <div className="movie-poster-wrap">
@@ -98,6 +99,10 @@ function MovieDetailsPage() {
 
           <ReviewList reviews={reviews} />
         </div>
+      </div>
+
+      <div className="container-fluid px-3 px-md-4 pb-4">
+        <SimilarMovies movieId={id} />
       </div>
     </div>
   )
