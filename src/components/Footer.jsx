@@ -1,41 +1,46 @@
-import Container from 'react-bootstrap/Container'
-import './footer.css';
-
+import { Link } from 'react-router-dom'
+import './footer.css'
+ 
 function Footer() {
   return (
-    <footer expand="lg" className="footer-custom" data-bs-theme="dark">
-      <Container fluid>
-   <div className="d-flex flex-wrap justify-content-between gap-4">
-  <div>
-    <h6>Oma sivusto</h6>
-    <p className="mb-0 text-secondary small">Kuvaus sivustosta.</p>
-  </div>
-
-  <div>
-    <h6>Linkit</h6>
-    <ul className="list-unstyled mb-0 small">
-      <li><a href="/" className="link-light text-decoration-none">Etusivu</a></li>
-      <li><a href="/tietoa" className="link-light text-decoration-none">Tietoa</a></li>
-      <li><a href="/yhteystiedot" className="link-light text-decoration-none">Yhteystiedot</a></li>
-    </ul>
-  </div>
-
-  <div>
-    <h6>Yhteystiedot</h6>
-    <p className="mb-0 text-secondary small">
-      Oulu, Suomi<br />
-      info@example.com
-    </p>
-  </div>
-</div>
-        <hr className="border-secondary" />
-
-        <p className="text-center text-secondary mb-0">
-          © 2026 Oma sivusto. Kaikki oikeudet pidätetään.
-        </p>
-      </Container>
+    <footer className="footer-custom" data-bs-theme="dark">
+      <div>
+        <span className="footer-title">Elokuva nettisivu</span>
+        <span className="footer-tagline">Elokuvaharrastajien yhteisöpalvelu</span>
+      </div>
+ 
+      <nav className="footer-links" aria-label="Alatunniste">
+        <Link to="/">Etusivu</Link>
+        <Link to="/browse">Selaa elokuvia</Link>
+        <Link to="/groups">Ryhmät</Link>
+      </nav>
+ 
+      <div className="footer-contact">
+        <span className="footer-contact-item">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z" />
+            <circle cx="12" cy="10" r="2.5" />
+          </svg>
+          Oulu, Suomi
+        </span>
+        <a className="footer-contact-item" href="mailto:info@example.com">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="M3 7l9 6 9-6" />
+          </svg>
+          info@example.com
+        </a>
+      </div>
+ 
+      <div className="footer-bottom">
+        <span>© 2026 Elokuva nettisivu. Kaikki oikeudet pidätetään.</span>
+        <span>
+          Elokuvatiedot: TMDB. Tämä sivu käyttää TMDB:n rajapintaa, mutta TMDB ei ole
+          hyväksynyt tai sertifioinut sitä.
+        </span>
+      </div>
     </footer>
   )
 }
-
+ 
 export default Footer

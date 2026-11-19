@@ -1,127 +1,101 @@
 .my-navbar {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: #4b2f7a;
+  gap: 1.5rem;
+  padding: 0.9rem 1.5rem;
+  color: #fff;
+}
+
+.my-navbar a {
+  color: #fff;
+  text-decoration: none;
 }
 
 .my-navbar-brand {
-  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   font-weight: bold;
-  text-decoration: none;
+  font-size: 1.1rem;
   white-space: nowrap;
 }
 
-.my-navbar-search {
+.my-navbar-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.my-navbar-right .my-navbar-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.my-navbar-links {
   display: flex;
-  flex: 1;
-  max-width: 500px;
-  gap: 0.5rem;
+  gap: 1.25rem;
+  margin-right: auto;
 }
 
-.my-navbar-toggler {
+.my-navbar-links a {
+  color: rgba(255, 255, 255, 0.65);
+  border-bottom: 2px solid transparent;
+}
+
+.my-navbar-links a.active {
+  color: #fff;
+  border-color: #a78bfa;
+}
+
+.my-navbar-right {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  width: 42px;
-  height: 36px;
-  padding: 0 8px;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.my-navbar-toggler span {
-  display: block;
-  height: 2px;
-  background-color: white;
-  border-radius: 2px;
-}
-
-.my-navbar-toggler:hover {
-  border-color: white;
-}
-
-.my-navbar-actions {
-  display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex-shrink: 0;
+  gap: 1rem;
+}
+
+.my-navbar-right a:hover {
+  color: #a78bfa;
+}
+
+.my-navbar-btn {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: #7c4dcc;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .fullmenu {
   position: fixed;
   inset: 0;
   z-index: 2000;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(135deg, #1a1030 0%, #0a0a0f 60%);
   overflow-y: auto;
-  animation: fullmenu-in 0.2s ease-out;
-}
-
-@keyframes fullmenu-in {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fullmenu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  background-color: #4b2f7a;
-}
-
-.fullmenu-close {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 6px;
-  color: #fff;
-  font-size: 1.1rem;
-  width: 42px;
-  height: 36px;
-  cursor: pointer;
-}
-
-.fullmenu-close:hover {
-  border-color: white;
-  background: rgba(255, 255, 255, 0.15);
+  background: #0a0b10;
 }
 
 .fullmenu-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 3rem;
-  width: 100%;
   max-width: 1100px;
   margin: 0 auto;
   padding: 3rem 1.5rem;
 }
 
 .fullmenu-column {
+  flex: 1 1 220px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .fullmenu-column h2 {
   width: 100%;
-  margin-bottom: 0.5rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   font-size: 0.85rem;
@@ -133,11 +107,10 @@
 .fullmenu-column a,
 .fullmenu-column button {
   padding: 0;
+  border: 0;
   background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.9);
+  color: #fff;
   font-size: 1.4rem;
-  text-align: left;
   text-decoration: none;
   cursor: pointer;
 }
@@ -147,56 +120,13 @@
   color: #a78bfa;
 }
 
-.fullmenu-user {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 1.1rem;
-}
-
-.my-navbar-search input {
-  min-width: 0;
-  flex: 1;
-  border-radius: 999px;
-  padding-left: 1rem;
-}
-
-.my-navbar-search .btn {
-  border-radius: 999px;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-}
-
-/* Mobiili */
 @media (max-width: 768px) {
   .my-navbar {
-    flex-wrap: wrap;
-    padding: 0.5rem 0.75rem;
-    row-gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
   }
 
-  .my-navbar-brand {
-    order: 1;
-    font-size: 1rem;
-  }
-
-  .my-navbar-actions {
-    order: 2;
-    margin-left: auto;
-    gap: 8px;
-  }
-
-  .my-navbar-actions .btn {
-    padding: 0.3rem 0.7rem;
-    font-size: 0.9rem;
-    white-space: nowrap;
-  }
-
-  .my-navbar-actions .text-light {
+  .my-navbar-links,
+  .my-navbar-username {
     display: none;
-  }
-
-  .my-navbar-search {
-    order: 3;
-    flex: 1 1 100%;
-    max-width: none;
   }
 }
