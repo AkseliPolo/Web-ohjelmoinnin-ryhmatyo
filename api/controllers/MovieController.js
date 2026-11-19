@@ -3,6 +3,7 @@ import {
   getFeaturedMovies,
   getGenres,
   getMovieDetails,
+  getRecommendations,
   searchMovies,
   searchPeople
 } from '../services/tmdb.js'
@@ -116,6 +117,15 @@ const getMovie = async (req, res, next) => {
   }
 }
 
+const recommendations = async (req, res, next) => {
+  try {
+    if (!/^[1-9]\d*$/.test(req.params.id)) throw badRequest('Elokuvan tunniste on virheellinen')
+    res.status(200).json(await getRecommendations(req.params.id))
+  } catch (error) {
+    next(error)
+  }
+}
+
 const featured = async (req, res, next) => {
   try {
     res.status(200).json(await getFeaturedMovies(5))
@@ -124,4 +134,4 @@ const featured = async (req, res, next) => {
   }
 }
 
-export { search, discover, genres, getMovie, featured, people }
+export { search, discover, genres, getMovie, featured, people, recommendations }

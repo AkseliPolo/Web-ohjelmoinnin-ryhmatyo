@@ -132,7 +132,7 @@ const getMovieDetails = async (id) => {
     const english = await tmdbGet(`/movie/${id}`, { language: 'en-US' })
     movie.title = english.title
   }
-   return {
+  return {
     ...toMovie(movie),
     runtime: movie.runtime,
     genres: movie.genres.map((genre) => genre.name),
@@ -160,4 +160,21 @@ const getFeaturedMovies = async (count) => {
   }))
 }
 
-export { searchMovies, discoverMovies, getGenres, getMovieDetails, getFeaturedMovies, searchPeople }
+const getRecommendations = async (id) => {
+  const recommended = await getListWithTitles(`/movie/${id}/recommendations`, {})
+  if (recommended.results.length > 0) {
+    return { source: 'recommendations', results: recommended.results.slice(0, 20).map(toMovie) }
+  }
+  const similar = await getListWithTitles(`/movie/${id}/similar`, {})
+  return { source: 'similar', results: similar.results.slice(0, 20).map(toMovie) }
+}
+
+export {
+  searchMovies,
+  discoverMovies,
+  getGenres,
+  getMovieDetails,
+  getFeaturedMovies,
+  searchPeople,
+  getRecommendations
+}
