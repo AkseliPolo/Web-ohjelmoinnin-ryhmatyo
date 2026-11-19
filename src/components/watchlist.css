@@ -1,0 +1,67 @@
+.watchlist-toggle-wrap {
+  margin-bottom: 1rem;
+}
+
+.watchlist-toggle {
+  margin-bottom: 1rem;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.watchlist-toggle-wrap .watchlist-toggle {
+  margin-bottom: 0;
+}
+
+.watchlist-toggle:hover,
+.watchlist-toggle:focus-visible {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #fff;
+}
+
+.watchlist-toggle.is-on {
+  background-color: #7b4fc9;
+  border-color: #7b4fc9;
+}
+
+.watchlist-toggle.is-on:hover,
+.watchlist-toggle.is-on:focus-visible {
+  background-color: #6a3fb5;
+  border-color: #6a3fb5;
+}
+
+/* Katselulistasivu */
+.watchlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.watchlist-card img,
+.watchlist-no-poster {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.watchlist-no-poster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  background: #e9ecef;
+}
+
+.watchlist-title {
+  margin: 0.5rem 0 0;
+  font-weight: 600;
+}
+
+.watchlist-remove {
+  margin-top: 0.4rem;
+  padding: 0;
+  color: #ea868f;
+}

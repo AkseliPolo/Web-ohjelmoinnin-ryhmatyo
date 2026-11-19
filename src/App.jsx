@@ -10,6 +10,7 @@ import BrowsePage from './pages/BrowsePage'
 import './App.css'
 import GroupsPage from './pages/GroupsPage'
 import GroupPage from './pages/GroupPage'
+import WatchlistPage from './pages/WatchlistPage'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/browse" element={<BrowsePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/watchlist" element={<WatchlistPage />} />
           <Route path="/groups" element={<GroupsPage />} />
           <Route path="/groups/:id" element={<GroupPage />} />
         </Routes>

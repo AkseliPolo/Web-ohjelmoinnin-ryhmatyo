@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import StarRating from '../components/StarRating'
+import WatchlistButton from '../components/WatchlistButton'
 import { ReviewForm, ReviewList } from '../components/MovieReviews'
 import { useMovieReviews } from '../components/useMovieReviews'
 import SimilarMovies from '../components/SimilarMovies'
@@ -45,6 +46,8 @@ function MovieDetailsPage() {
           </div>
           <p className="mb-1 mt-2">⭐ {movie.rating} · {movie.runtime} min</p>
           <p className="text-secondary">{movie.genres.join(', ')}</p>
+
+          <WatchlistButton movieId={id} />
 
           <ReviewForm reviews={reviews} />
 
