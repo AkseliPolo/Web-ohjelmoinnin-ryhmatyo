@@ -8,6 +8,8 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import BrowsePage from './pages/BrowsePage'
 import './App.css'
+import GroupsPage from './pages/GroupsPage'
+import GroupPage from './pages/GroupPage'
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/browse" element={<BrowsePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/groups" element={<GroupsPage />} />
+          <Route path="/groups/:id" element={<GroupPage />} />
         </Routes>
       </main>
 

@@ -1,0 +1,43 @@
+.movie-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.movie-poster-wrap {
+  flex: 0 0 auto;
+}
+
+.movie-poster {
+  display: block;
+  width: 427px;
+  max-width: 100%;
+  height: auto;
+}
+
+.movie-info {
+  flex: 1 1 500px;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .movie-layout {
+    gap: 1.25rem;
+  }
+
+  .movie-poster-wrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .movie-poster {
+    width: 60%;
+    max-width: 240px;
+  }
+
+  .movie-info {
+    flex: 1 1 100%;
+  }
+}

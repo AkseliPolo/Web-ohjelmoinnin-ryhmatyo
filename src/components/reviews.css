@@ -1,0 +1,154 @@
+.movie-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+}
+
+.movie-title-row h1 {
+  margin-bottom: 0;
+}
+
+.stars-input {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.stars {
+  display: inline-flex;
+  gap: 0.15rem;
+  line-height: 1;
+}
+
+.star {
+  padding: 0;
+  color: transparent;
+  background: none;
+  border: 0;
+  -webkit-text-stroke: 1.5px #f5c518;
+  transition: color 0.1s, transform 0.1s;
+}
+
+.star.is-on {
+  color: #f5c518;
+}
+
+button.star {
+  cursor: pointer;
+}
+
+button.star:hover {
+  transform: scale(1.12);
+}
+
+button.star:focus-visible {
+  outline: 2px solid #f5c518;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.stars-lg .star {
+  font-size: 2.4rem;
+}
+
+.stars-sm .star {
+  font-size: 1.25rem;
+  -webkit-text-stroke-width: 1px;
+}
+
+.stars-label {
+  min-width: 6rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.review-form,
+.review-note,
+.review-card {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.review-form {
+  margin: 1rem 0 1.5rem;
+  padding: 1.25rem;
+}
+
+.review-form-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.review-form-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.review-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.review-save {
+  min-width: 6rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #7b4fc9;
+  border-color: #7b4fc9;
+}
+
+.review-save:hover,
+.review-save:focus-visible {
+  color: #fff;
+  background-color: #6a3fb5;
+  border-color: #6a3fb5;
+}
+
+.review-delete {
+  color: #ea868f;
+}
+
+.review-note {
+  margin: 1rem 0 1.5rem;
+  padding: 0.75rem 1rem;
+}
+
+.review-success {
+  border-color: rgba(117, 183, 152, 0.5);
+  color: #75b798;
+}
+
+.review-list {
+  margin-top: 2rem;
+}
+
+.review-card {
+  margin-top: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.review-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.review-own {
+  font-weight: 400;
+  opacity: 0.7;
+}
