@@ -6,12 +6,23 @@ const API_URL = import.meta.env.VITE_API_URL || ''
 
 
 function SearchPage() {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const query = searchParams.get('q') || ''
+  const [input, setInput] = useState(query)
   const [movies, setMovies] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    setInput(query)
+  }, [query])
+
+  useEffect(() => {
+    if (!query) {
+      setMovies([])
+      setLoading(false)
+      return
+    }
+
     setLoading(true)
     fetch(`${API_URL}/api/movies/search?q=${encodeURIComponent(query)}`)
       .then((response) => response.json())
@@ -19,17 +30,35 @@ function SearchPage() {
         setMovies(data.results || [])
         setLoading(false)
       })
+      .catch(() => setLoading(false))
   }, [query])
 
-  if (loading) {
-    return <p>Haetaan...</p>
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    if (input.trim()) setSearchParams({ q: input.trim() })
   }
 
   return (
     <div>
-      <h1 className="h4 mb-4">Hakutulokset: "{query}"</h1>
+      <form className="d-flex gap-2 mb-4" onSubmit={handleSubmit}>
+        <input
+          className="form-control"
+          type="search"
+          placeholder="Hae elokuvaa nimellä"
+          value={input}
+          onChange={(event) => setInput(event.target.value)}
+          autoFocus
+        />
+        <button className="btn btn-dark" type="submit">Hae</button>
+      </form>
 
-      {movies.length === 0 && <p>Hakusanalla ei löytynyt elokuvia.</p>}
+      {query && <h1 className="h4 mb-4">Hakutulokset: "{query}"</h1>}
+
+      {loading && <p>Haetaan...</p>}
+
+      {query && !loading && movies.length === 0 && (
+        <p>Hakusanalla ei löytynyt elokuvia.</p>
+      )}
 
       <div className="search-grid">
         {movies.map((movie) => (
