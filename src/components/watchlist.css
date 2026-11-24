@@ -65,3 +65,47 @@
   padding: 0;
   color: #ea868f;
 }
+.watchlist-share {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
+}
+
+.watchlist-share-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+}
+
+.watchlist-share-label {
+  grid-column: 1 / -1;
+  font-size: 0.875rem;
+  opacity: 0.75;
+}
+
+.watchlist-share-copy {
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  background-color: #7b4fc9;
+  border-color: #7b4fc9;
+}
+
+.watchlist-share-copy:hover,
+.watchlist-share-copy:focus-visible {
+  color: #fff;
+  background-color: #6a3fb5;
+  border-color: #6a3fb5;
+}
+
+.watchlist-share .watchlist-remove {
+  margin-top: 0;
+}
+
+@media (max-width: 576px) {
+  .watchlist-share-row {
+    grid-template-columns: 1fr;
+  }
+}

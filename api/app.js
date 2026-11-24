@@ -10,6 +10,7 @@ import movieRouter from './routes/movieRouter.js'
 import reviewRouter from './routes/reviewRouter.js'
 import watchlistRouter from './routes/watchlistRouter.js'
 import groupRouter from './routes/groupRouter.js'
+import sharedRouter from './routes/sharedRouter.js'
 
 const app = express()
 
@@ -26,6 +27,7 @@ app.use('/api/movies', movieRouter)
 app.use('/api/reviews', reviewRouter)
 app.use('/api/watchlist', watchlistRouter)
 app.use('/api/groups', groupRouter)
+app.use('/api/shared', sharedRouter)
 
 app.get('/api/health', async (req, res) => {
   try {

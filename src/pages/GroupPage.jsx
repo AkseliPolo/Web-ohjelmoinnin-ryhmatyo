@@ -64,7 +64,7 @@ function GroupPage() {
       apiFetch(`/api/groups/${id}/messages`)
         .then(setMessages)
         .catch(() => {})
-    }, 10000)
+    }, 5000)
     return () => clearInterval(timer)
   }, [id, isMember])
 
