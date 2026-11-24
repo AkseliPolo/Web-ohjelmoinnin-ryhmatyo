@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { auth } from '../middleware/auth.js'
 import {
   getMovieReviews,
+  getMyReviews,
   saveReview,
   editReview,
   removeReview
@@ -9,6 +10,7 @@ import {
 
 const router = Router()
 
+router.get('/mine', auth, getMyReviews)
 router.get('/movie/:movieId', getMovieReviews)
 router.post('/movie/:movieId', auth, saveReview)
 router.put('/:id', auth, editReview)
