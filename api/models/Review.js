@@ -50,7 +50,7 @@ const deleteReview = async (id, userId) => {
 const getReviewsByUserId = async (userId) => {
   const result = await pool.query(
     `SELECT r.id, r.rating, r.body, r.created_at, r.updated_at,
-            m.tmdb_id, m.title, m.release_year
+            m.tmdb_id, m.title, m.release_year, m.poster_path
      FROM reviews r
      JOIN movies m ON m.id = r.movie_id
      WHERE r.user_id = $1

@@ -116,6 +116,7 @@ function Navbar() {
               {user ? (
                 <>
                   <span>{name}</span>
+                  <Link to="/profile" onClick={close}>Oma profiili</Link>
                   <button type="button" onClick={handleLogout}>Kirjaudu ulos</button>
                 </>
               ) : (
