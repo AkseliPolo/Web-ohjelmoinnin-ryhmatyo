@@ -32,11 +32,15 @@ const getGroupById = async (groupId, viewerId) => {
             u.id AS creator_id, u.username AS creator_username,
             u.display_name AS creator_display_name,
             (SELECT COUNT(*) FROM group_members WHERE group_id = g.id)::int AS member_count,
+<<<<<<< Updated upstream
             me.role AS my_role,
             EXISTS (
               SELECT 1 FROM group_join_requests r
               WHERE r.group_id = g.id AND r.user_id = $2 AND r.status = 'pending'
             ) AS has_pending_request
+=======
+            me.role AS my_role
+>>>>>>> Stashed changes
      FROM groups g
      LEFT JOIN users u ON u.id = g.created_by
      LEFT JOIN group_members me ON me.group_id = g.id AND me.user_id = $2
@@ -46,6 +50,7 @@ const getGroupById = async (groupId, viewerId) => {
   return result.rows[0]
 }
 
+<<<<<<< Updated upstream
 const groupExists = async (groupId) => {
   const result = await pool.query('SELECT 1 FROM groups WHERE id = $1', [groupId])
   return result.rowCount > 0
@@ -72,3 +77,6 @@ const listGroups = async (viewerId, { onlyMine, search, limit, offset }) => {
 }
 
 export { createGroup, getGroupById, groupExists, listGroups }
+=======
+export { createGroup, getGroupById }
+>>>>>>> Stashed changes
