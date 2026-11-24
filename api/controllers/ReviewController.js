@@ -1,5 +1,6 @@
 import {
   getReviewsByTmdbId,
+  getReviewsByUserId,
   upsertReview,
   updateReview,
   deleteReview
@@ -24,6 +25,15 @@ const parseId = (value) => {
 const getMovieReviews = async (req, res, next) => {
   try {
     const reviews = await getReviewsByTmdbId(parseId(req.params.movieId))
+    res.status(200).json(reviews)
+  } catch (err) {
+    next(err)
+  }
+}
+
+const getMyReviews = async (req, res, next) => {
+  try {
+    const reviews = await getReviewsByUserId(req.user.id)
     res.status(200).json(reviews)
   } catch (err) {
     next(err)
@@ -73,4 +83,4 @@ const removeReview = async (req, res, next) => {
   }
 }
 
-export { getMovieReviews, saveReview, editReview, removeReview }
+export { getMovieReviews, getMyReviews, saveReview, editReview, removeReview }

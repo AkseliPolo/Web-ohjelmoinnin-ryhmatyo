@@ -47,4 +47,17 @@ const deleteReview = async (id, userId) => {
   return result.rowCount > 0
 }
 
-export { getReviewsByTmdbId, upsertReview, updateReview, deleteReview }
+const getReviewsByUserId = async (userId) => {
+  const result = await pool.query(
+    `SELECT r.id, r.rating, r.body, r.created_at, r.updated_at,
+            m.tmdb_id, m.title, m.release_year, m.poster_path
+     FROM reviews r
+     JOIN movies m ON m.id = r.movie_id
+     WHERE r.user_id = $1
+     ORDER BY r.created_at DESC`,
+    [userId]
+  )
+  return result.rows
+}
+
+export { getReviewsByTmdbId, upsertReview, updateReview, deleteReview, getReviewsByUserId }
