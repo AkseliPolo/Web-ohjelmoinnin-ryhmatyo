@@ -1,4 +1,6 @@
 .my-navbar {
+  position: relative;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -51,10 +53,6 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-}
-
-.my-navbar-right a:hover {
-  color: #a78bfa;
 }
 
 .my-navbar-btn {
@@ -115,6 +113,7 @@
   cursor: pointer;
 }
 
+.my-navbar-right a:hover,
 .fullmenu-column a:hover,
 .fullmenu-column button:hover {
   color: #a78bfa;
