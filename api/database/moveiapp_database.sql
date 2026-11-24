@@ -86,3 +86,29 @@ CREATE TABLE IF NOT EXISTS group_messages (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS idx_group_messages_group ON group_messages(group_id, created_at);
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'share_link_type') THEN
+    CREATE TYPE share_link_type AS ENUM ('group_invite', 'watchlist');
+  END IF;
+END $$;
+
+CREATE TABLE IF NOT EXISTS share_links (
+  id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  token       UUID            NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  link_type   share_link_type NOT NULL,
+  created_by  BIGINT          NOT NULL REFERENCES users(id)  ON DELETE CASCADE,
+  group_id    BIGINT          REFERENCES groups(id) ON DELETE CASCADE,
+  expires_at  TIMESTAMPTZ,
+  max_uses    INTEGER         CHECK (max_uses IS NULL OR max_uses > 0),
+  use_count   INTEGER         NOT NULL DEFAULT 0,
+  revoked     BOOLEAN         NOT NULL DEFAULT false,
+  created_at  TIMESTAMPTZ     NOT NULL DEFAULT now(),
+  CHECK (
+    (link_type = 'group_invite' AND group_id IS NOT NULL) OR
+    (link_type = 'watchlist'    AND group_id IS NULL)
+  )
+);
+CREATE INDEX IF NOT EXISTS idx_share_links_group ON share_links(group_id);
+CREATE INDEX IF NOT EXISTS idx_share_links_owner ON share_links(created_by, link_type);
