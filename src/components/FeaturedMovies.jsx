@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-=======
-import { useEffect, useState } from 'react'
->>>>>>> Stashed changes
 import { Link } from 'react-router-dom'
 import './featured.css'
 
@@ -44,7 +40,6 @@ function FeaturedMovies() {
   const go = (step) => setIndex((i) => (i + step + movies.length) % movies.length)
 
   return (
-<<<<<<< Updated upstream
     <div className="featured" ref={ref}>
       <div className="featured-glow" aria-hidden="true">
         {movies.map((movie, i) => (
@@ -106,20 +101,6 @@ function FeaturedMovies() {
             className={movies.indexOf(movie) === index ? 'active' : ''}
             onClick={() => setIndex(movies.indexOf(movie))}
           />
-=======
-    <div>
-      <h2 className="h4 mb-3 text-center">Suositeltuja elokuvia</h2>
-      <div className="featured-grid">
-        {movies.map((movie) => (
-          <Link
-            to={`/movies/${movie.id}`}
-            className="featured-item"
-            key={movie.id}
-          >
-            <img src={movie.backdropUrl} alt={movie.title} />
-            <p className="featured-title">{movie.title}</p>
-          </Link>
->>>>>>> Stashed changes
         ))}
       </div>
     </div>

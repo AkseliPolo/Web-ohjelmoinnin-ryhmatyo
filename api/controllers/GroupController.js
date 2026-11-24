@@ -1,28 +1,9 @@
-<<<<<<< Updated upstream
 import { createGroup, getGroupById, listGroups } from '../models/Group.js'
 import { httpError, parseId, parseOptionalInt } from '../services/httpHelpers.js'
-=======
-import { createGroup, getGroupById } from '../models/Group.js'
->>>>>>> Stashed changes
 
 const NAME_MAX = 100
 const DESCRIPTION_MAX = 1000
 
-<<<<<<< Updated upstream
-=======
-const httpError = (status, message) => {
-  const error = new Error(message)
-  error.status = status
-  return error
-}
-
-const parseId = (value) => {
-  const id = Number(value)
-  if (!Number.isInteger(id) || id < 1) throw httpError(400, 'Virheellinen id')
-  return id
-}
-
->>>>>>> Stashed changes
 const checkGroupInput = (body) => {
   const { name, description } = body || {}
 
@@ -47,7 +28,6 @@ const checkGroupInput = (body) => {
   }
 }
 
-<<<<<<< Updated upstream
 const toGroupSummary = (group) => ({
   id: group.id,
   name: group.name,
@@ -59,8 +39,6 @@ const toGroupSummary = (group) => ({
   has_pending_request: group.has_pending_request
 })
 
-=======
->>>>>>> Stashed changes
 const create = async (req, res, next) => {
   try {
     const { name, description } = checkGroupInput(req.body)
@@ -90,19 +68,14 @@ const getGroup = async (req, res, next) => {
         : null,
       member_count: group.member_count,
       is_member: group.my_role !== null,
-<<<<<<< Updated upstream
       my_role: group.my_role,
       has_pending_request: group.has_pending_request
-=======
-      my_role: group.my_role
->>>>>>> Stashed changes
     })
   } catch (error) {
     next(error)
   }
 }
 
-<<<<<<< Updated upstream
 const fetchGroups = async (req, onlyMine) => {
   const search =
     typeof req.query.search === 'string' && req.query.search.trim()
@@ -137,6 +110,3 @@ const listMine = async (req, res, next) => {
 }
 
 export { create, getGroup, listAll, listMine }
-=======
-export { create, getGroup }
->>>>>>> Stashed changes
