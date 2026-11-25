@@ -68,6 +68,8 @@ function Navbar() {
           <NavLink to="/" end>Etusivu</NavLink>
           <NavLink to="/browse">Selaa</NavLink>
           <NavLink to="/groups">Ryhmät</NavLink>
+          {user && <NavLink to="/watchlist">Katselulista</NavLink>}
+          {user && <NavLink to="/reviews">Omat arvostelut</NavLink>}
         </div>
 
         <div className="my-navbar-right">

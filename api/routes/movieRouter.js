@@ -4,7 +4,10 @@ import {
   featured,
   genres,
   getMovie,
+  latestMovies,
   people,
+  popularMovies,
+  popularPeople,
   recommendations,
   search
 } from '../controllers/MovieController.js'
@@ -12,6 +15,9 @@ import {
 const router = Router()
 
 router.get('/featured', featured)
+router.get('/popular', popularMovies)
+router.get('/latest', latestMovies)
+router.get('/people/popular', popularPeople)
 router.get('/search', search)
 router.get('/discover', discover)
 router.get('/genres', genres)

@@ -1,15 +1,10 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './featured.css'
+import TopLists from './TopLists'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
 const SLIDE_MS = 6000
-const QUICK_LINKS = [
-  { to: '/browse', label: 'Selaa' },
-  { to: '/groups', label: 'Ryhmät' },
-  { to: '/watchlist', label: 'Katselulista' },
-  { to: '/reviews', label: 'Omat arvostelut' },
-]
 
 function FeaturedMovies() {
   const [movies, setMovies] = useState([])
@@ -112,15 +107,8 @@ function FeaturedMovies() {
           />
         ))}
       </div>
-
-      <div className="quick-links">
-        {QUICK_LINKS.map((link) => (
-          <Link key={link.to} to={link.to} className="quick-link">
-            {link.label}
-          </Link>
-        ))}
-      </div>
-    </div>
+    <TopLists />
+   </div>
   )
 }
 

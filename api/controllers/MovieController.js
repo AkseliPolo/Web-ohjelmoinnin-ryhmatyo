@@ -2,7 +2,10 @@ import {
   discoverMovies,
   getFeaturedMovies,
   getGenres,
+  getLatestMovies,
   getMovieDetails,
+  getPopularMovies,
+  getPopularPeople,
   getRecommendations,
   searchMovies,
   searchPeople
@@ -134,4 +137,28 @@ const featured = async (req, res, next) => {
   }
 }
 
-export { search, discover, genres, getMovie, featured, people, recommendations }
+const popularMovies = async (req, res, next) => {
+  try {
+    res.status(200).json(await getPopularMovies())
+  } catch (error) {
+    next(error)
+  }
+}
+
+const latestMovies = async (req, res, next) => {
+  try {
+    res.status(200).json(await getLatestMovies())
+  } catch (error) {
+    next(error)
+  }
+}
+
+const popularPeople = async (req, res, next) => {
+  try {
+    res.status(200).json(await getPopularPeople())
+  } catch (error) {
+    next(error)
+  }
+}
+
+export { search, discover, genres, getMovie, featured, people, recommendations, popularMovies, latestMovies, popularPeople }

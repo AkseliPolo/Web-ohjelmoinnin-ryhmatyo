@@ -169,6 +169,33 @@ const getRecommendations = async (id) => {
   return { source: 'similar', results: similar.results.slice(0, 20).map(toMovie) }
 }
 
+const getPopularMovies = async () => {
+  const data = await getListWithTitles('/movie/popular', {})
+  return data.results.slice(0, 10).map(toMovie)
+}
+
+const getLatestMovies = async () => {
+  const data = await getListWithTitles('/movie/now_playing', { region: 'FI' })
+  return data.results
+    .filter((movie) => movie.release_date)
+    .sort((a, b) => b.release_date.localeCompare(a.release_date))
+    .slice(0, 10)
+    .map((movie) => ({ ...toMovie(movie), releaseDate: movie.release_date }))
+}
+
+const getPopularPeople = async () => {
+  const data = await tmdbGet('/person/popular', {})
+  return data.results
+    .filter((person) => person.known_for_department === 'Acting')
+    .slice(0, 10)
+    .map((person) => ({
+      id: person.id,
+      name: person.name,
+      profileUrl: person.profile_path ? `${PROFILE_URL}${person.profile_path}` : null,
+      knownFor: (person.known_for || []).map((work) => work.title || work.name).filter(Boolean).slice(0, 3)
+    }))
+}
+
 export {
   searchMovies,
   discoverMovies,
@@ -176,5 +203,8 @@ export {
   getMovieDetails,
   getFeaturedMovies,
   searchPeople,
-  getRecommendations
+  getRecommendations,
+  getPopularMovies,
+  getLatestMovies,
+  getPopularPeople
 }

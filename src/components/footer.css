@@ -9,63 +9,74 @@
   gap: 20px;
   text-align: center;
 }
- 
- 
-.footer-custom::before {
+
+.footer-bottom {
+  width: calc(100% + 48px);
+  margin: 0 -24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 24px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.8rem;
+  color: #cfc6e4;
+}
+
+.footer-custom::after {
   content: '';
   position: absolute;
-  inset: 0;
-  z-index: -1;
+  top: 48px;
+  left: 50%;
+    width: min(1500px, calc(100% - 3rem));
+  height: 1px;
+  transform: translateX(-50%);
   pointer-events: none;
   background: linear-gradient(
-    0deg,
-    rgba(71, 46, 121, 0.7) 0%,
-    rgba(71, 46, 121, 0.4) 50%,
-    rgba(71, 46, 121, 0) 100%
+    90deg,
+    transparent 0%,
+    rgba(160, 160, 170, 0.5) 20%,
+    rgba(160, 160, 170, 0.5) 80%,
+    transparent 100%
   );
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-mask-image: linear-gradient(0deg, #000 55%, transparent 100%);
-  mask-image: linear-gradient(0deg, #000 55%, transparent 100%);
 }
- 
+
 .footer-title {
   display: block;
   font-size: 1.5rem;
   font-weight: 700;
 }
- 
+
 .footer-tagline {
   display: block;
   margin-top: 6px;
   color: #d9ccf5;
 }
- 
+
 .footer-links {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   row-gap: 8px;
 }
- 
+
 .footer-links a {
   padding: 0 14px;
 }
- 
+
 .footer-links a + a {
   border-left: 1px solid rgba(255, 255, 255, 0.25);
 }
- 
+
 .footer-custom a {
   color: #ece5fb;
   text-decoration: none;
 }
- 
+
 .footer-custom a:hover {
   color: #ffffff;
   text-decoration: underline;
 }
- 
+
 .footer-contact {
   display: flex;
   flex-wrap: wrap;
@@ -74,13 +85,13 @@
   font-size: 0.9rem;
   color: #d9ccf5;
 }
- 
+
 .footer-contact-item {
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
- 
+
 .footer-bottom {
   width: 100%;
   display: flex;
@@ -90,14 +101,4 @@
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   font-size: 0.8rem;
   color: #cfc6e4;
-}
-
-.featured-glow {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-  -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 45%, #000 0%, transparent 100%);
-  mask-image: radial-gradient(ellipse 60% 70% at 50% 45%, #000 0%, transparent 100%);
 }

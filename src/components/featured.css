@@ -4,13 +4,13 @@
 }
 
 .featured-glow {
-  position: absolute;
-  inset: 0 -140px -90px;
+  position: fixed;
+  inset: 0;
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
-  -webkit-mask-image: radial-gradient(ellipse closest-side, #000 45%, transparent 100%);
-  mask-image: radial-gradient(ellipse closest-side, #000 45%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 45%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 45%, #000 100%);
 }
 
 .featured-glow img,
@@ -31,7 +31,7 @@
 }
 
 .featured-glow img.active {
-  opacity: 0.55;
+  opacity: 0.45;
 }
 
 .slider {
@@ -159,35 +159,3 @@
     height: 32px;
   }
 }
-
-.quick-links {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem;
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
-
-.quick-link {
-  display: block;
-  padding: 1.75rem 1rem;
-  text-align: center;
-  font-weight: 600;
-  color: #fff;
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  transition: background 0.15s, border-color 0.15s;
-}
-
-.quick-link:hover {
-  color: #fff;
-  background: rgba(124, 77, 204, 0.25);
-  border-color: #a78bfa;
-}
-
-  .quick-links {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
