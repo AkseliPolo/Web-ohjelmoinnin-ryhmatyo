@@ -1,29 +1,32 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
+import { apiFetch } from '../api'
 
 const AuthContext = createContext(null)
 
-const readUser = () => {
-  try {
-    return JSON.parse(localStorage.getItem('user'))
-  } catch {
-    return null
-  }
-}
-
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(readUser)
+  const [user, setUser] = useState(null)
+  const [ready, setReady] = useState(false)
 
-  const login = (token, userData) => {
-    localStorage.setItem('token', token)
-    localStorage.setItem('user', JSON.stringify(userData))
+  useEffect(() => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+
+    apiFetch('/api/users/me')
+      .then((data) => setUser(data.user))
+      .catch(() => setUser(null))
+      .finally(() => setReady(true))
+  }, [])
+
+  const login = (userData) => {
     setUser(userData)
   }
 
-  const logout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
+  const logout = async () => {
     setUser(null)
+    await apiFetch('/api/users/logout', { method: 'POST' }).catch(() => null)
   }
+
+  if (!ready) return null
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>

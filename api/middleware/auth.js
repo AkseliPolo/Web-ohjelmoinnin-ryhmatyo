@@ -7,9 +7,9 @@ const unauthorized = (message) => {
 }
 
 const auth = (req, res, next) => {
-  const [type, token] = (req.headers.authorization || '').split(' ')
+  const token = req.cookies?.token
 
-  if (type !== 'Bearer' || !token) {
+  if (!token) {
     return next(unauthorized('Kirjautuminen vaaditaan'))
   }
 

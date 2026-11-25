@@ -11,6 +11,7 @@ import './App.css'
 import GroupsPage from './pages/GroupsPage'
 import GroupPage from './pages/GroupPage'
 import WatchlistPage from './pages/WatchlistPage'
+import JoinGroupPage from './pages/JoinGroupPage'
 import SharedWatchlistPage from './pages/SharedWatchlistPage'
 import ReviewsPage from './pages/ReviewsPage'
 import ProfilePage from './pages/ProfilePage'
@@ -33,6 +34,7 @@ function App() {
           <Route path="/reviews" element={<ReviewsPage />} />
           <Route path="/groups" element={<GroupsPage />} />
           <Route path="/groups/:id" element={<GroupPage />} />
+          <Route path="/join/:token" element={<JoinGroupPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </main>

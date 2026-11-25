@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import './Auth.css'
 import { useAuth } from '../context/AuthContext'
 
@@ -11,6 +11,7 @@ function LoginPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
   const { login } = useAuth()
 
   const handleSubmit = async (event) => {
@@ -22,6 +23,7 @@ function LoginPage() {
     const response = await fetch(`${API_URL}/api/users/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ login: username, password })
    })
     const data = await response.json()
@@ -31,8 +33,8 @@ function LoginPage() {
         return
     }
 
-      login(data.token, data.user)
-      navigate('/')
+      login(data.user)
+      navigate(location.state?.from || '/')
    } catch {
       setError('Palvelimeen ei saatu yhteyttä')
    } finally {
@@ -86,4 +88,3 @@ function LoginPage() {
 }
  
 export default LoginPage
- 
