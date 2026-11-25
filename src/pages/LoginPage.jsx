@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import './Auth.css'
 import { useAuth } from '../context/AuthContext'
 
@@ -11,6 +11,7 @@ function LoginPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
   const { login } = useAuth()
 
   const handleSubmit = async (event) => {
@@ -32,7 +33,7 @@ function LoginPage() {
     }
 
       login(data.token, data.user)
-      navigate('/')
+      navigate(location.state?.from || '/')
    } catch {
       setError('Palvelimeen ei saatu yhteyttä')
    } finally {
@@ -86,4 +87,3 @@ function LoginPage() {
 }
  
 export default LoginPage
- 

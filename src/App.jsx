@@ -11,6 +11,7 @@ import './App.css'
 import GroupsPage from './pages/GroupsPage'
 import GroupPage from './pages/GroupPage'
 import WatchlistPage from './pages/WatchlistPage'
+import JoinGroupPage from './pages/JoinGroupPage'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/watchlist" element={<WatchlistPage />} />
           <Route path="/groups" element={<GroupsPage />} />
           <Route path="/groups/:id" element={<GroupPage />} />
+          <Route path="/join/:token" element={<JoinGroupPage />} />
         </Routes>
       </main>
 
