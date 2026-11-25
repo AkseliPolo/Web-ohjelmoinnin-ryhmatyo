@@ -4,6 +4,12 @@ import './featured.css'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
 const SLIDE_MS = 6000
+const QUICK_LINKS = [
+  { to: '/browse', label: 'Selaa' },
+  { to: '/groups', label: 'Ryhmät' },
+  { to: '/watchlist', label: 'Katselulista' },
+  { to: '/reviews', label: 'Omat arvostelut' },
+]
 
 function FeaturedMovies() {
   const [movies, setMovies] = useState([])
@@ -77,30 +83,41 @@ function FeaturedMovies() {
               aria-label="Edellinen elokuva"
               onClick={() => go(-1)}
             >
-              ‹
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M15 5l-7 7 7 7" />
+              </svg>
             </button>
-            
             <button
               className="slider-arrow next"
               type="button"
               aria-label="Seuraava elokuva"
               onClick={() => go(1)}
             >
-              ›
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M9 5l7 7-7 7" />
+              </svg>
             </button>
           </>
         )}
       </div>
 
       <div className="slider-dots">
-        {movies.map((movie) => (
+        {movies.map((movie, i) => (
           <button
             key={movie.id}
             type="button"
             aria-label={movie.title}
-            className={movies.indexOf(movie) === index ? 'active' : ''}
-            onClick={() => setIndex(movies.indexOf(movie))}
+            className={i === index ? 'active' : ''}
+            onClick={() => setIndex(i)}
           />
+        ))}
+      </div>
+
+      <div className="quick-links">
+        {QUICK_LINKS.map((link) => (
+          <Link key={link.to} to={link.to} className="quick-link">
+            {link.label}
+          </Link>
         ))}
       </div>
     </div>

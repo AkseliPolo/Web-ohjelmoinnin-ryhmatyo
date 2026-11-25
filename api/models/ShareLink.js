@@ -2,6 +2,9 @@ import { pool } from './db.js'
 
 const LINK_COLUMNS = 'id, token, expires_at, max_uses, use_count, revoked, created_at'
 
+// ---- Ryhmien kutsulinkit ----
+
+// Palauttaa syyn, miksi linkki ei kelpaa, tai null jos se on käytettävissä
 const getLinkProblem = (link) => {
   if (link.revoked) return 'Kutsulinkki on peruttu'
   if (link.expires_at && new Date(link.expires_at) <= new Date()) {
@@ -23,6 +26,7 @@ const createGroupInviteLink = async (groupId, userId, expiresAt, maxUses) => {
   return result.rows[0]
 }
 
+// Ryhmän voimassa olevat kutsulinkit
 const listGroupInviteLinks = async (groupId) => {
   const result = await pool.query(
     `SELECT ${LINK_COLUMNS}
@@ -49,6 +53,7 @@ const revokeGroupInviteLink = async (groupId, linkId) => {
   return result.rows[0]
 }
 
+// Linkin esikatselu: ryhmän tiedot ja kuuluuko katsoja jo ryhmään
 const getInviteByToken = async (token, viewerId) => {
   const result = await pool.query(
     `SELECT l.expires_at, l.max_uses, l.use_count, l.revoked,
@@ -64,6 +69,8 @@ const getInviteByToken = async (token, viewerId) => {
   return result.rows[0]
 }
 
+// Liittyminen linkin kautta. Palauttaa { code, ... }:
+// not_found | invalid | already_member | joined
 const joinViaInvite = async (token, userId) => {
   const client = await pool.connect()
   try {
@@ -117,11 +124,70 @@ const joinViaInvite = async (token, userId) => {
   }
 }
 
+// ---- Katselulistan jakolinkit ----
+
+const findWatchlistLink = async (userId) => {
+  const result = await pool.query(
+    `SELECT token, created_at
+     FROM share_links
+     WHERE created_by = $1
+       AND link_type = 'watchlist'
+       AND revoked = false
+       AND (expires_at IS NULL OR expires_at > now())
+     ORDER BY created_at DESC
+     LIMIT 1`,
+    [userId]
+  )
+  return result.rows[0] || null
+}
+
+const createWatchlistLink = async (userId) => {
+  const result = await pool.query(
+    `INSERT INTO share_links (link_type, created_by)
+     VALUES ('watchlist', $1)
+     RETURNING token, created_at`,
+    [userId]
+  )
+  return result.rows[0]
+}
+
+const revokeWatchlistLinks = async (userId) => {
+  const result = await pool.query(
+    `UPDATE share_links
+     SET revoked = true
+     WHERE created_by = $1
+       AND link_type = 'watchlist'
+       AND revoked = false`,
+    [userId]
+  )
+  return result.rowCount > 0
+}
+
+const findWatchlistOwnerByToken = async (token) => {
+  const result = await pool.query(
+    `SELECT u.id, u.display_name
+     FROM share_links s
+     JOIN users u ON u.id = s.created_by
+     WHERE s.token = $1
+       AND s.link_type = 'watchlist'
+       AND s.revoked = false
+       AND (s.expires_at IS NULL OR s.expires_at > now())`,
+    [token]
+  )
+  return result.rows[0] || null
+}
+
 export {
+  // ryhmien kutsulinkit
   getLinkProblem,
   createGroupInviteLink,
   listGroupInviteLinks,
   revokeGroupInviteLink,
   getInviteByToken,
-  joinViaInvite
+  joinViaInvite,
+  // katselulistan jakolinkit
+  findWatchlistLink,
+  createWatchlistLink,
+  revokeWatchlistLinks,
+  findWatchlistOwnerByToken
 }

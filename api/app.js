@@ -3,6 +3,7 @@ import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import errorHandler from './middleware/errorHandler.js'
 import testRouter from './routes/testRouter.js'
 import userRouter from './routes/userRouter.js'
@@ -10,13 +11,24 @@ import movieRouter from './routes/movieRouter.js'
 import reviewRouter from './routes/reviewRouter.js'
 import watchlistRouter from './routes/watchlistRouter.js'
 import groupRouter from './routes/groupRouter.js'
+import sharedRouter from './routes/sharedRouter.js'
 
 const app = express()
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const frontendDist = path.join(__dirname, '..', 'dist')
 
-app.use(cors())
+app.set('trust proxy', 1)
+
+const credentialOrigins = (process.env.CORS_ORIGINS || 'http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim())
+
+app.use(cors((req, callback) => {
+  const origin = req.header('Origin')
+  callback(null, credentialOrigins.includes(origin) ? { origin, credentials: true } : { origin: '*' })
+}))
+app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
@@ -26,6 +38,7 @@ app.use('/api/movies', movieRouter)
 app.use('/api/reviews', reviewRouter)
 app.use('/api/watchlist', watchlistRouter)
 app.use('/api/groups', groupRouter)
+app.use('/api/shared', sharedRouter)
 
 app.get('/api/health', async (req, res) => {
   try {

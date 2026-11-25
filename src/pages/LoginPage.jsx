@@ -23,6 +23,7 @@ function LoginPage() {
     const response = await fetch(`${API_URL}/api/users/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ login: username, password })
    })
     const data = await response.json()
@@ -32,7 +33,7 @@ function LoginPage() {
         return
     }
 
-      login(data.token, data.user)
+      login(data.user)
       navigate(location.state?.from || '/')
    } catch {
       setError('Palvelimeen ei saatu yhteyttä')
