@@ -6,10 +6,10 @@ import './profile.css'
 const API_URL = import.meta.env.VITE_API_URL || ''
 
 async function request(path, options = {}) {
-  const token = localStorage.getItem('token')
   const res = await fetch(`${API_URL}${path}`, {
     ...options,
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' }
   })
   if (res.status === 204) return null
   const data = await res.json().catch(() => null)

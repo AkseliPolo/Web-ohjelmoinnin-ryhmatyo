@@ -1,14 +1,12 @@
 const API_URL = import.meta.env.VITE_API_URL || ''
 
-// Tekee kutsun taustapalvelulle ja liittää mukaan kirjautumistokenin
+// Tekee kutsun taustapalvelulle. Kirjautumisen eväste kulkee mukana automaattisesti.
 export async function apiFetch(path, options = {}) {
-  const token = localStorage.getItem('token')
-
   const response = await fetch(`${API_URL}${path}`, {
     ...options,
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },
   })
