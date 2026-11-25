@@ -20,4 +20,14 @@ const findUserForLogin = async (login) => {
   return result.rows[0]
 }
 
-export { createUser, findUserForLogin }
+const findUserById = async (id) => {
+  const result = await pool.query(
+    `SELECT id, username, display_name, email
+     FROM users
+     WHERE id = $1`,
+    [id]
+  )
+  return result.rows[0]
+}
+
+export { createUser, findUserForLogin, findUserById }

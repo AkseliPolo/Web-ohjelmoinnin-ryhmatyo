@@ -1,6 +1,15 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { createUser, findUserForLogin } from '../models/User.js'
+import { createUser, findUserForLogin, findUserById } from '../models/User.js'
+
+const SESSION_DAYS = 7
+
+const cookieOptions = (req) => ({
+  httpOnly: true,
+  secure: req.secure,
+  sameSite: 'lax',
+  path: '/'
+})
 
 const badRequest = (message) => {
   const error = new Error(message)
@@ -62,9 +71,13 @@ const login = async (req, res, next) => {
   try {
     const { login, password } = req.body || {}
     const user = await checkLogin(login, password)
-    const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '7d' })
+    const token = jwt.sign(
+      { id: user.id, username: user.username },
+      process.env.JWT_SECRET,
+      { expiresIn: `${SESSION_DAYS}d` }
+    )
+    res.cookie('token', token, { ...cookieOptions(req), maxAge: SESSION_DAYS * 24 * 60 * 60 * 1000 })
     res.status(200).json({
-      token,
       user: { id: user.id, username: user.username, display_name: user.display_name, email: user.email }
     })
   } catch (error) {
@@ -72,4 +85,24 @@ const login = async (req, res, next) => {
   }
 }
 
-export { register, login }
+const logout = (req, res) => {
+  res.clearCookie('token', cookieOptions(req))
+  res.status(204).end()
+}
+
+const me = async (req, res, next) => {
+  try {
+    const user = await findUserById(req.user.id)
+    if (!user) {
+      res.clearCookie('token', cookieOptions(req))
+      const error = new Error('Käyttäjää ei löytynyt')
+      error.status = 401
+      throw error
+    }
+    res.status(200).json({ user })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export { register, login, logout, me }
